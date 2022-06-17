@@ -83,9 +83,7 @@ static void nfc_app_task_handle(void *pvParameter)
             pdFALSE,
             portMAX_DELAY
         );
-
         xLastWakeTime = xTaskGetTickCount();
-
         while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
             ESP_LOGE(TAG, "device hard reset");
             pn532_setpin_reset(0);
@@ -120,10 +118,9 @@ static void nfc_app_task_handle(void *pvParameter)
 #endif
                 http_app_verify_token((char *)rx_data + RX_FRAME_PRFX_LEN);
             } else {
-                ESP_LOGW(TAG, "unexpected frame length: %d", strlen((char *)rx_data));
+                ESP_LOGW(TAG, "unexpected frame length: %d %d %d", strlen((char *)rx_data),rx_data[0],rx_data[1]);
             }
         }
-
         vTaskDelayUntil(&xLastWakeTime, 500 / portTICK_RATE_MS);
     }
 

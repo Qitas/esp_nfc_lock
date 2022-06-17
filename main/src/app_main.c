@@ -48,7 +48,7 @@ static void chip_init(void)
 #endif
 }
 
-static void board_init(void)
+static void rfid_init(void)
 {
     pn532_init();
 }
@@ -81,12 +81,8 @@ static void user_init(void)
 int app_main(void)
 {
     core_init();
-
     chip_init();
-
-    board_init();
-
+    rfid_init();
     user_init();
-
     return 0;
 }

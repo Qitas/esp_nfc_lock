@@ -1,12 +1,4 @@
-/*
- * st7789.c
- *
- *  Created on: 2018-03-16 12:30
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include "esp_log.h"
-
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "drivers/gdisp/ST7789/ST7789.h"
@@ -95,29 +87,13 @@ void st7789_write_data(uint8_t data)
 }
 void st7789_write_buff(uint8_t *buff, uint32_t n)
 {
-    static uint16_t bulk = 4*1024;
-    uint16_t package = (uint16_t)(n/bulk);
-    uint16_t res = 0;
-    uint32_t ptr = 0;
-    ESP_LOGI(TAG, "len %d",n);
-    while(--package){
-        spi_trans[0].length = bulk * 8;
-        spi_trans[0].rxlength = 0;
-        spi_trans[0].tx_buffer = buff+ptr;
-        spi_trans[0].rx_buffer = NULL;
-        spi_trans[0].user = (void *)1;
-        spi_trans[0].flags = 0;
-        spi_device_transmit(spi_host, &spi_trans[0]);
-        ptr += bulk; 
-        ESP_LOGI(TAG, "package: %d, ptr: %d",package,ptr);
-    }
-    res = (uint16_t)(n%bulk);
-    spi_trans[0].length = res * 8;
+    spi_trans[0].length = n * 8;
     spi_trans[0].rxlength = 0;
-    spi_trans[0].tx_buffer = buff+ptr;
+    spi_trans[0].tx_buffer = buff;
     spi_trans[0].rx_buffer = NULL;
     spi_trans[0].user = (void *)1;
     spi_trans[0].flags = 0;
+
     spi_device_transmit(spi_host, &spi_trans[0]);
 }
 

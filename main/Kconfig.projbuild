@@ -40,7 +40,7 @@ config WIFI_HOSTNAME_PREFIX
 
 config ENABLE_SC_KEY
     bool "Enable SmartConfig Key"
-    default y
+    default n
 
 config SC_KEY_HOLD_TIME
     int "SmartConfig Key Hold Time (ms)"

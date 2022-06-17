@@ -1,9 +1,3 @@
-/*
- * st7789.h
- *
- *  Created on: 2018-03-16 12:30
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #ifndef INC_BOARD_ST7789_H_
 #define INC_BOARD_ST7789_H_
