@@ -59,7 +59,7 @@ static void user_init(void)
 
     nfc_app_init();
 
-    http_app_init();
+    // http_app_init();
 
 #ifdef CONFIG_ENABLE_SC_KEY
     key_init();

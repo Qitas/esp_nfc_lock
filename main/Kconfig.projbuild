@@ -77,15 +77,15 @@ endmenu
 menu "NFC Configuration"
 config PN532_RST_PIN
     int "PN532 RST Pin"
-    default 26
+    default 35
 
 config PN532_TX_PIN
     int "PN532 TX Pin"
-    default 17
+    default 36
 
 config PN532_RX_PIN
     int "PN532 RX Pin"
-    default 16
+    default 37
 endmenu
 
 menu "GUI Configuration"
@@ -122,17 +122,17 @@ config LCD_ROTATION_DEGREE
 
 config LCD_RST_PIN
     int "LCD RST Pin"
-    default 14
+    default 8
     depends on ENABLE_GUI
 
 config LCD_DC_PIN
     int "LCD DC Pin"
-    default 23
+    default 4
     depends on ENABLE_GUI
 
 config LCD_BL_PIN
     int "LCD BL Pin"
-    default 4
+    default 9
     depends on ENABLE_GUI
 
 config SPI_SCLK_PIN
@@ -142,19 +142,19 @@ config SPI_SCLK_PIN
 
 config SPI_MOSI_PIN
     int "SPI MOSI Pin"
-    default 18
+    default 7
     depends on ENABLE_GUI
 
 config SPI_CS_PIN
     int "SPI CS Pin"
-    default 27
+    default 6
     depends on ENABLE_GUI
 endmenu
 
 menu "LED Configuration"
 config ENABLE_LED
     bool "Enable LED"
-    default y
+    default n
 
 choice LED_ACTIVE_LEVEL
     prompt "LED Active Level"

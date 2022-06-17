@@ -1,9 +1,3 @@
-/*
- * spi.c
- *
- *  Created on: 2018-02-10 16:38
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "esp_log.h"
 
@@ -29,7 +23,7 @@ void spi_host_init(void)
         .max_transfer_sz = ST7789_SCREEN_WIDTH * ST7789_SCREEN_HEIGHT * 2
 #endif
     };
-    ESP_ERROR_CHECK(spi_bus_initialize(SPI_HOST_NUM, &bus_conf, 1));
+    ESP_ERROR_CHECK(spi_bus_initialize(SPI_HOST_NUM, &bus_conf, SPI_DMA_CH_AUTO));
 
     spi_device_interface_config_t dev_conf = {
         .mode = 0,                                // SPI mode 0

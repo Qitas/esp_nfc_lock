@@ -34,7 +34,7 @@ void st7789_init_board(void)
     ledc_timer_config_t ledc_timer = {
         .duty_resolution = LEDC_TIMER_8_BIT,
         .freq_hz = 40000,
-        .speed_mode = LEDC_HIGH_SPEED_MODE,
+        .speed_mode = LEDC_LOW_SPEED_MODE,
         .timer_num = LEDC_TIMER_0,
         .clk_cfg = LEDC_AUTO_CLK
     };
@@ -44,7 +44,7 @@ void st7789_init_board(void)
         .channel = LEDC_CHANNEL_0,
         .duty = 0,
         .gpio_num = CONFIG_LCD_BL_PIN,
-        .speed_mode = LEDC_HIGH_SPEED_MODE,
+        .speed_mode = LEDC_LOW_SPEED_MODE,
         .hpoint = 0,
         .timer_sel = LEDC_TIMER_0
     };
@@ -57,7 +57,7 @@ void st7789_init_board(void)
 
 void st7789_set_backlight(uint8_t val)
 {
-    ledc_set_fade_time_and_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, val, 500, LEDC_FADE_NO_WAIT);
+    ledc_set_fade_time_and_start(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, val, 500, LEDC_FADE_NO_WAIT);
 }
 
 void st7789_setpin_dc(spi_transaction_t *t)
@@ -93,16 +93,31 @@ void st7789_write_data(uint8_t data)
 
     spi_device_transmit(spi_host, &spi_trans[0]);
 }
-
 void st7789_write_buff(uint8_t *buff, uint32_t n)
 {
-    spi_trans[0].length = n * 8;
+    static uint16_t bulk = 4*1024;
+    uint16_t package = (uint16_t)(n/bulk);
+    uint16_t res = 0;
+    uint32_t ptr = 0;
+    ESP_LOGI(TAG, "len %d",n);
+    while(--package){
+        spi_trans[0].length = bulk * 8;
+        spi_trans[0].rxlength = 0;
+        spi_trans[0].tx_buffer = buff+ptr;
+        spi_trans[0].rx_buffer = NULL;
+        spi_trans[0].user = (void *)1;
+        spi_trans[0].flags = 0;
+        spi_device_transmit(spi_host, &spi_trans[0]);
+        ptr += bulk; 
+        ESP_LOGI(TAG, "package: %d, ptr: %d",package,ptr);
+    }
+    res = (uint16_t)(n%bulk);
+    spi_trans[0].length = res * 8;
     spi_trans[0].rxlength = 0;
-    spi_trans[0].tx_buffer = buff;
+    spi_trans[0].tx_buffer = buff+ptr;
     spi_trans[0].rx_buffer = NULL;
     spi_trans[0].user = (void *)1;
     spi_trans[0].flags = 0;
-
     spi_device_transmit(spi_host, &spi_trans[0]);
 }
 

@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.6)
 
-set(SUPPORTED_TARGETS esp32)
+set(SUPPORTED_TARGETS esp32s3)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(nfc_attendance_system)
+project(esp_nfc_lock)
