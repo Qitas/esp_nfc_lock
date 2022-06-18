@@ -11,7 +11,7 @@
 #include "cJSON.h"
 
 #include "core/os.h"
-#include "chip/wifi.h"
+#include "port/wifi.h"
 
 #include "user/gui.h"
 #include "user/http_app.h"

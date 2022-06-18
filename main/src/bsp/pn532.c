@@ -1,9 +1,3 @@
-/*
- * pn532.c
- *
- *  Created on: 2018-04-23 13:10
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "esp_log.h"
 

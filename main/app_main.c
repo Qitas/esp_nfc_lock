@@ -1,20 +1,12 @@
-/*
- * app_main.c
- *
- *  Created on: 2018-03-11 15:57
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "core/os.h"
 #include "core/app.h"
-
-#include "chip/nvs.h"
-#include "chip/spi.h"
-#include "chip/i2s.h"
-#include "chip/wifi.h"
-#include "chip/uart.h"
-
-#include "board/pn532.h"
+#include "port/nvs.h"
+#include "port/spi.h"
+#include "port/i2s.h"
+#include "port/wifi.h"
+#include "port/uart.h"
+#include "bsp/pn532.h"
 
 #include "user/ntp.h"
 #include "user/led.h"
@@ -24,6 +16,12 @@
 #include "user/http_app.h"
 #include "user/audio_player.h"
 
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：无
+**输出参数 ：无
+********************************************************************************/
 static void core_init(void)
 {
     app_print_info();
@@ -56,11 +54,8 @@ static void rfid_init(void)
 static void user_init(void)
 {
     ntp_init();
-
     nfc_app_init();
-
-    // http_app_init();
-
+    http_app_init();
 #ifdef CONFIG_ENABLE_SC_KEY
     key_init();
 #endif
@@ -77,12 +72,16 @@ static void user_init(void)
     audio_player_init();
 #endif
 }
-
-int app_main(void)
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：无
+**输出参数 ：无
+********************************************************************************/
+void app_main(void)
 {
     core_init();
     chip_init();
     rfid_init();
     user_init();
-    return 0;
 }

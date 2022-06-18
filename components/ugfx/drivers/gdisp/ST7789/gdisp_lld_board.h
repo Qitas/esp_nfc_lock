@@ -8,7 +8,7 @@
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#include "board/st7789.h"
+#include "bsp/st7789.h"
 
 #define init_board(g)           st7789_init_board()
 #define set_backlight(g, val)   st7789_set_backlight(val)

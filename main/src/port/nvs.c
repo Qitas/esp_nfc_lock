@@ -1,9 +1,3 @@
-/*
- * nvs.c
- *
- *  Created on: 2018-03-30 16:45
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "esp_log.h"
 

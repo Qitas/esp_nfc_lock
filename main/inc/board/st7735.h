@@ -1,16 +1,10 @@
-/*
- * st7735.h
- *
- *  Created on: 2018-03-16 16:15
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #ifndef INC_BOARD_ST7735_H_
 #define INC_BOARD_ST7735_H_
 
 #include <stdint.h>
 
-#include "chip/spi.h"
+#include "port/spi.h"
 
 #define ST7735_SCREEN_WIDTH  80
 #define ST7735_SCREEN_HEIGHT 160

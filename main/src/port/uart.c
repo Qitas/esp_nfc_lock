@@ -1,13 +1,7 @@
-/*
- * uart.c
- *
- *  Created on: 2018-02-10 16:09
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "esp_log.h"
 
-#include "chip/uart.h"
+#include "port/uart.h"
 
 void uart_init(void)
 {

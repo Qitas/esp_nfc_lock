@@ -17,7 +17,7 @@
 #include "stream.h"
 
 #include "core/os.h"
-#include "chip/i2s.h"
+#include "port/i2s.h"
 
 #include "user/audio_player.h"
 

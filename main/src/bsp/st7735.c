@@ -1,18 +1,10 @@
-/*
- * st7735.c
- *
- *  Created on: 2018-03-16 16:15
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include "esp_log.h"
 
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "drivers/gdisp/ST7735/ST7735.h"
-
-#include "chip/spi.h"
-#include "board/st7735.h"
+#include "port/spi.h"
+#include "bsp/st7735.h"
 
 #ifdef CONFIG_LCD_TYPE_ST7735
 

@@ -16,7 +16,7 @@
 #include "freertos/event_groups.h"
 
 #include "core/os.h"
-#include "chip/wifi.h"
+#include "port/wifi.h"
 
 #include "user/ntp.h"
 #include "user/key.h"

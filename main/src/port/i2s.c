@@ -1,13 +1,7 @@
-/*
- * i2s.c
- *
- *  Created on: 2018-02-10 16:38
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include "esp_log.h"
 
-#include "chip/i2s.h"
+#include "port/i2s.h"
 
 #define I2S0_TAG "i2s-0"
 #define I2S1_TAG "i2s-1"

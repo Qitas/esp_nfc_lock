@@ -1,12 +1,5 @@
-/*
- * wifi.c
- *
- *  Created on: 2018-02-11 06:56
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include <string.h>
-
 #include "esp_log.h"
 #include "esp_wifi.h"
 

@@ -14,7 +14,7 @@
 #include "core/os.h"
 #include "core/app.h"
 
-#include "chip/wifi.h"
+#include "port/wifi.h"
 
 #include "user/gui.h"
 #include "user/led.h"

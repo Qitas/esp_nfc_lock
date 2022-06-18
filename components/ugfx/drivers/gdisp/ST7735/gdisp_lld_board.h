@@ -8,7 +8,7 @@
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#include "board/st7735.h"
+#include "bsp/st7735.h"
 
 #define init_board(g)           st7735_init_board()
 #define set_backlight(g, val)   st7735_set_backlight(val)
