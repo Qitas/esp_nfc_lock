@@ -1,2 +1,8 @@
 
 .vscode
+.config
+*.o
+*.pyc
+sdkconfig
+sdkconfig.old
+build/
