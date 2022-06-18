@@ -1,10 +1,3 @@
-/*
- * app.c
- *
- *  Created on: 2018-04-05 19:09
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include "esp_log.h"
 #include "esp_ota_ops.h"
 

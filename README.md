@@ -1,6 +1,7 @@
-NFC Attendance System
+NFC LOCK
 =====================
 
+在原工程基础上修改，实现NFC门锁功能
 
 ## Main Features
 

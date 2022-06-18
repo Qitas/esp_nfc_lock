@@ -1,12 +1,5 @@
-/*
- * http_app.c
- *
- *  Created on: 2018-02-17 18:51
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include <string.h>
-
 #include "esp_log.h"
 #include "esp_http_client.h"
 
