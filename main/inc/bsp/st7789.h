@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-#include "port/spi.h"
+#include "bsp/port.h"
 
 #define ST7789_SCREEN_WIDTH  135
 #define ST7789_SCREEN_HEIGHT 240

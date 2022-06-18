@@ -1,7 +1,9 @@
 
 #include "esp_log.h"
 
-#include "port/uart.h"
+#include "bsp/port.h"
+
+#define UART_TAG "uart"
 
 void uart_init(void)
 {

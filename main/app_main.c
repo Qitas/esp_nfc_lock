@@ -1,13 +1,8 @@
 
 #include "core/os.h"
 #include "core/app.h"
-#include "port/nvs.h"
-#include "port/spi.h"
-#include "port/i2s.h"
-#include "port/wifi.h"
-#include "port/uart.h"
+#include "bsp/port.h"
 #include "bsp/pn532.h"
-
 #include "user/ntp.h"
 #include "user/led.h"
 #include "user/gui.h"
@@ -16,6 +11,10 @@
 #include "user/http_app.h"
 #include "user/audio_player.h"
 
+#include "esp_log.h"
+#include "nvs_flash.h"
+
+#define TAG     "main"
 /*******************************************************************************
 **函数信息 ：
 **功能描述 ：
@@ -31,7 +30,14 @@ static void core_init(void)
 
 static void chip_init(void)
 {
-    nvs_init();
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
+    ESP_LOGI(TAG, "initialized.");
+
 
     wifi_init();
 

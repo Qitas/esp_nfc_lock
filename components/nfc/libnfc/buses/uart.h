@@ -31,7 +31,7 @@
  */
 
 #ifndef __NFC_BUS_UART_H__
-#  define __NFC_BUS_UART_H__
+#define __NFC_BUS_UART_H__
 
 #  include <sys/time.h>
 

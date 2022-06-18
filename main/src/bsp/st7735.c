@@ -3,7 +3,7 @@
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "drivers/gdisp/ST7735/ST7735.h"
-#include "port/spi.h"
+#include "bsp/port.h"
 #include "bsp/st7735.h"
 
 #ifdef CONFIG_LCD_TYPE_ST7735

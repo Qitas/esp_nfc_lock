@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-#include "port/spi.h"
+#include "bsp/port.h"
 
 #define ST7735_SCREEN_WIDTH  80
 #define ST7735_SCREEN_HEIGHT 160

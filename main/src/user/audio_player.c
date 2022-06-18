@@ -1,10 +1,3 @@
-/*
- * audio_player.c
- *
- *  Created on: 2018-02-12 20:13
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include "esp_log.h"
 
 #include "freertos/FreeRTOS.h"
@@ -17,7 +10,7 @@
 #include "stream.h"
 
 #include "core/os.h"
-#include "port/i2s.h"
+#include "bsp/port.h"
 
 #include "user/audio_player.h"
 

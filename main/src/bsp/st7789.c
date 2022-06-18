@@ -3,7 +3,7 @@
 #include "driver/ledc.h"
 #include "drivers/gdisp/ST7789/ST7789.h"
 
-#include "port/spi.h"
+#include "bsp/port.h"
 #include "bsp/st7789.h"
 
 #ifdef CONFIG_LCD_TYPE_ST7789

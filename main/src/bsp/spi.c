@@ -1,10 +1,12 @@
 
 #include "esp_log.h"
 
-#include "port/spi.h"
-
+#include "bsp/port.h"
 #include "bsp/st7735.h"
 #include "bsp/st7789.h"
+
+
+#define SPI_HOST_TAG "spi"
 
 #ifdef CONFIG_ENABLE_GUI
 spi_device_handle_t spi_host;

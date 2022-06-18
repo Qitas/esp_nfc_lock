@@ -1,17 +1,8 @@
-/*
- * http_app_token.c
- *
- *  Created on: 2018-04-06 15:09
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include "esp_log.h"
 #include "esp_http_client.h"
-
 #include "cJSON.h"
-
 #include "core/os.h"
-#include "port/wifi.h"
+#include "bsp/port.h"
 
 #include "user/gui.h"
 #include "user/http_app.h"
