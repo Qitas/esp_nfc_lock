@@ -20,7 +20,7 @@
  */
 
 # ifdef HAVE_CONFIG_H
-#  include "config.h"
+#include "config.h"
 # endif
 
 # include "global.h"
@@ -29,11 +29,11 @@
 # include <string.h>
 
 # ifdef HAVE_ASSERT_H
-#  include <assert.h>
+#include <assert.h>
 # endif
 
 # ifdef HAVE_LIMITS_H
-#  include <limits.h>
+#include <limits.h>
 # else
 #  define CHAR_BIT  8
 # endif

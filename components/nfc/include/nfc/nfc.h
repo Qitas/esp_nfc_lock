@@ -34,8 +34,8 @@
 #ifndef _LIBNFC_H_
 #  define _LIBNFC_H_
 
-#  include <stdint.h>
-#  include <stdbool.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #  ifdef _WIN32
 /* Windows platform */
@@ -60,7 +60,7 @@
 #  endif
 /* _WIN32 */
 
-#  include <nfc/nfc-types.h>
+#include <nfc/nfc-types.h>
 
 #  ifndef __has_attribute
 #    define __has_attribute(x) 0

@@ -33,16 +33,14 @@
 #ifndef __NFC_BUS_UART_H__
 #define __NFC_BUS_UART_H__
 
-#  include <sys/time.h>
+#include <sys/time.h>
 
-#  include <stdio.h>
-#  include <string.h>
-#  include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-
-#  include <nfc/nfc-types.h>
-
-#  include "port/uart.h"
+#include <nfc/nfc-types.h>
+#include "bsp/port.h"
 
 // Define shortcut to types to make code more readable
 typedef void *serial_port;

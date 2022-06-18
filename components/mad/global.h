@@ -29,7 +29,7 @@
 # endif
 
 # if defined(DEBUG)
-#  include <stdio.h>
+#include <stdio.h>
 # endif
 
 /* conditional features */

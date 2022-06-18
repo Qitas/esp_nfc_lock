@@ -20,13 +20,13 @@
  */
 
 # ifdef HAVE_CONFIG_H
-#  include "config.h"
+#include "config.h"
 # endif
 
 # include "global.h"
 
 # ifdef HAVE_LIMITS_H
-#  include <limits.h>
+#include <limits.h>
 # else
 #  define CHAR_BIT  8
 # endif

@@ -31,9 +31,9 @@
 #ifndef _LIBNFC_MIRROR_SUBR_H_
 #  define _LIBNFC_MIRROR_SUBR_H_
 
-#  include <stdint.h>
+#include <stdint.h>
 
-#  include <nfc/nfc-types.h>
+#include <nfc/nfc-types.h>
 
 
 uint8_t  mirror(uint8_t bt);

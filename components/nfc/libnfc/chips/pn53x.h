@@ -33,8 +33,8 @@
 #ifndef __NFC_CHIPS_PN53X_H__
 #  define __NFC_CHIPS_PN53X_H__
 
-#  include <nfc/nfc-types.h>
-#  include "pn53x-internal.h"
+#include <nfc/nfc-types.h>
+#include "pn53x-internal.h"
 
 // Registers and symbols masks used to covers parts within a register
 //   PN53X_REG_CIU_TxMode

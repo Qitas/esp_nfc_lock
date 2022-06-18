@@ -72,7 +72,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#  include "config.h"
+#include "config.h"
 #endif // HAVE_CONFIG_H
 
 #include <fcntl.h>
@@ -89,43 +89,43 @@
 #include "drivers.h"
 
 #if defined (DRIVER_PCSC_ENABLED)
-#  include "drivers/pcsc.h"
+#include "drivers/pcsc.h"
 #endif /* DRIVER_PCSC_ENABLED */
 
 #if defined (DRIVER_ACR122_PCSC_ENABLED)
-#  include "drivers/acr122_pcsc.h"
+#include "drivers/acr122_pcsc.h"
 #endif /* DRIVER_ACR122_PCSC_ENABLED */
 
 #if defined (DRIVER_ACR122_USB_ENABLED)
-#  include "drivers/acr122_usb.h"
+#include "drivers/acr122_usb.h"
 #endif /* DRIVER_ACR122_USB_ENABLED */
 
 #if defined (DRIVER_ACR122S_ENABLED)
-#  include "drivers/acr122s.h"
+#include "drivers/acr122s.h"
 #endif /* DRIVER_ACR122S_ENABLED */
 
 #if defined (DRIVER_PN53X_USB_ENABLED)
-#  include "drivers/pn53x_usb.h"
+#include "drivers/pn53x_usb.h"
 #endif /* DRIVER_PN53X_USB_ENABLED */
 
 #if defined (DRIVER_ARYGON_ENABLED)
-#  include "drivers/arygon.h"
+#include "drivers/arygon.h"
 #endif /* DRIVER_ARYGON_ENABLED */
 
 #if defined (DRIVER_PN532_UART_ENABLED)
-#  include "drivers/pn532_uart.h"
+#include "drivers/pn532_uart.h"
 #endif /* DRIVER_PN532_UART_ENABLED */
 
 #if defined (DRIVER_PN532_SPI_ENABLED)
-#  include "drivers/pn532_spi.h"
+#include "drivers/pn532_spi.h"
 #endif /* DRIVER_PN532_SPI_ENABLED */
 
 #if defined (DRIVER_PN532_I2C_ENABLED)
-#  include "drivers/pn532_i2c.h"
+#include "drivers/pn532_i2c.h"
 #endif /* DRIVER_PN532_I2C_ENABLED */
 
 #if defined (DRIVER_PN71XX_ENABLED)
-#  include "drivers/pn71xx.h"
+#include "drivers/pn71xx.h"
 #endif /* DRIVER_PN71XX_ENABLED */
 
 

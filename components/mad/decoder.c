@@ -20,31 +20,31 @@
  */
 
 # ifdef HAVE_CONFIG_H
-#  include "config.h"
+#include "config.h"
 # endif
 
 # include "global.h"
 
 # ifdef HAVE_SYS_TYPES_H
-#  include <sys/types.h>
+#include <sys/types.h>
 # endif
 
 # ifdef HAVE_SYS_WAIT_H
-#  include <sys/wait.h>
+#include <sys/wait.h>
 # endif
 
 # ifdef HAVE_UNISTD_H
-#  include <unistd.h>
+#include <unistd.h>
 # endif
 
 # ifdef HAVE_FCNTL_H
-#  include <fcntl.h>
+#include <fcntl.h>
 # endif
 
 # include <stdlib.h>
 
 # ifdef HAVE_ERRNO_H
-#  include <errno.h>
+#include <errno.h>
 # endif
 
 # include "stream.h"
