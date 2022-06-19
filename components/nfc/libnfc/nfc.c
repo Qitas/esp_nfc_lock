@@ -193,8 +193,7 @@ nfc_drivers_init(void)
 #endif /* DRIVER_PN71XX_ENABLED */
 }
 
-static int
-nfc_device_validate_modulation(nfc_device *pnd, const nfc_mode mode, const nfc_modulation *nm);
+static int nfc_device_validate_modulation(nfc_device *pnd, const nfc_mode mode, const nfc_modulation *nm);
 
 /** @ingroup lib
  * @brief Register an NFC device driver with libnfc.
@@ -203,8 +202,7 @@ nfc_device_validate_modulation(nfc_device *pnd, const nfc_mode mode, const nfc_m
  * @param pnd Pointer to an NFC device driver to be registered.
  * @retval NFC_SUCCESS If the driver registration succeeds.
  */
-int
-nfc_register_driver(const struct nfc_driver *ndr)
+int nfc_register_driver(const struct nfc_driver *ndr)
 {
   if (!ndr) {
     log_put(LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "nfc_register_driver returning NFC_EINVARG");
@@ -227,8 +225,7 @@ nfc_register_driver(const struct nfc_driver *ndr)
  * This function must be called before calling any other libnfc function
  * @param context Output location for nfc_context
  */
-void
-nfc_init(nfc_context **context)
+void nfc_init(nfc_context **context)
 {
   *context = nfc_context_new();
   if (!*context) {
@@ -273,8 +270,7 @@ nfc_exit(nfc_context *context)
  * @note Depending on the desired operation mode, the device needs to be configured by using nfc_initiator_init() or nfc_target_init(),
  * optionally followed by manual tuning of the parameters if the default parameters are not suiting your goals.
  */
-nfc_device *
-nfc_open(nfc_context *context, const nfc_connstring connstring)
+nfc_device * nfc_open(nfc_context *context, const nfc_connstring connstring)
 {
   nfc_device *pnd = NULL;
 
@@ -352,8 +348,7 @@ nfc_close(nfc_device *pnd)
  * @param connstrings_len size of the \a connstrings array.
  *
  */
-size_t
-nfc_list_devices(nfc_context *context, nfc_connstring connstrings[], const size_t connstrings_len)
+size_t nfc_list_devices(nfc_context *context, nfc_connstring connstrings[], const size_t connstrings_len)
 {
   size_t device_found = 0;
 

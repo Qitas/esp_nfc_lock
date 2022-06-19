@@ -1,10 +1,3 @@
-/*
- * nfc_app.c
- *
- *  Created on: 2018-02-13 21:50
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #include <string.h>
 
 #include "esp_log.h"
