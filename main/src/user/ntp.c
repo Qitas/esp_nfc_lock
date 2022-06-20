@@ -1,9 +1,3 @@
-/*
- * ntp.c
- *
- *  Created on: 2018-02-16 17:50
- *      Author: Jack Chen <redchenjs@live.com>
- */
 
 #include <time.h>
 

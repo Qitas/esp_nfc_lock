@@ -5,7 +5,7 @@
 
 #define TAG "pn532"
 
-void pn532_setpin_reset(uint8_t val)
+void pn532_power_reset(uint8_t val)
 {
     gpio_set_level(CONFIG_PN532_RST_PIN, val);
 }

@@ -44,7 +44,7 @@ void sc_key_handle(void)
 
     esp_wifi_disconnect();
 
-    esp_smartconfig_set_type(SC_TYPE_ESPTOUCH);
+    esp_smartconfig_set_type(SC_TYPE_ESPTOUCH_V2);
     smartconfig_start_config_t sc_cfg = SMARTCONFIG_START_CONFIG_DEFAULT();
     esp_smartconfig_start(&sc_cfg);
 }

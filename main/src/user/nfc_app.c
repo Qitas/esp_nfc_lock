@@ -79,9 +79,9 @@ static void nfc_app_task_handle(void *pvParameter)
         xLastWakeTime = xTaskGetTickCount();
         while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
             ESP_LOGE(TAG, "device hard reset");
-            pn532_setpin_reset(0);
+            pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
             vTaskDelay(100 / portTICK_RATE_MS);
-            pn532_setpin_reset(1);
+            pn532_power_reset(1);
             vTaskDelay(100 / portTICK_RATE_MS);
         }
 
@@ -132,12 +132,12 @@ void nfc_app_set_mode(nfc_app_mode_t idx)
     nfc_app_mode = idx;
 
     if (nfc_app_mode == NFC_APP_MODE_IDX_ON) {
-        pn532_setpin_reset(1);
+        pn532_power_reset(1);
         vTaskDelay(100 / portTICK_RATE_MS);
         xEventGroupSetBits(user_event_group, NFC_APP_RUN_BIT);
     } else {
         xEventGroupClearBits(user_event_group, NFC_APP_RUN_BIT);
-        pn532_setpin_reset(0);
+        pn532_power_reset(0);
     }
 }
 

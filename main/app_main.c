@@ -32,16 +32,11 @@ static void chip_init(void)
     }
     ESP_ERROR_CHECK(ret);
     ESP_LOGI(TAG, "initialized.");
-
-
     wifi_init();
-
     uart_init();
-
 #ifdef CONFIG_ENABLE_AUDIO_PROMPT
     i2s_output_init();
 #endif
-
 #ifdef CONFIG_ENABLE_GUI
     spi_host_init();
 #endif

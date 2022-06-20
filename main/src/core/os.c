@@ -100,7 +100,7 @@ static void sc_event_handler(void *arg, esp_event_base_t event_base, int32_t eve
             wifi_conf->sta.bssid_set = evt->bssid_set;
             if (wifi_conf->sta.bssid_set == true) {
                 memcpy(wifi_conf->sta.bssid, evt->bssid, sizeof(wifi_conf->sta.bssid));
-            }
+            } 
 
 #ifdef CONFIG_ENABLE_LED
             led_set_mode(LED_MODE_IDX_PULSE_D1);

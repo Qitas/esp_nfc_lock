@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-extern void pn532_setpin_reset(uint8_t val);
+extern void pn532_power_reset(uint8_t val);
 
 extern void pn532_init(void);
 
