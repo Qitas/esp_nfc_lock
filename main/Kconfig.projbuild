@@ -7,7 +7,7 @@ config SERVER_URL
 
 choice TRANSFER_PROTOCOL
     prompt "Transfer Protocol"
-    default TRANSFER_PROTOCOL_HTTPS
+    default TRANSFER_PROTOCOL_HTTP
 
 config TRANSFER_PROTOCOL_HTTP
     bool "http"

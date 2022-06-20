@@ -15,10 +15,9 @@
 
 extern spi_device_handle_t spi_host;
 
-extern void spi_host_init(void);
 extern void uart_init(void);
 extern void wifi_init(void);
-
+extern void spi_host_init(void);
 extern wifi_config_t *wifi_get_conf(void);
 
 extern char *wifi_get_hostname(void);

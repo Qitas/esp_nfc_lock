@@ -21,15 +21,10 @@
 **输入参数 ：无
 **输出参数 ：无
 ********************************************************************************/
-static void core_init(void)
-{
-    app_print_info();
-
-    os_init();
-}
-
 static void chip_init(void)
 {
+    app_print_info();
+    os_init();
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -51,12 +46,22 @@ static void chip_init(void)
     spi_host_init();
 #endif
 }
-
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：无
+**输出参数 ：无
+********************************************************************************/
 static void rfid_init(void)
 {
     pn532_init();
 }
-
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：无
+**输出参数 ：无
+********************************************************************************/
 static void user_init(void)
 {
     ntp_init();
@@ -86,7 +91,6 @@ static void user_init(void)
 ********************************************************************************/
 void app_main(void)
 {
-    core_init();
     chip_init();
     rfid_init();
     user_init();
