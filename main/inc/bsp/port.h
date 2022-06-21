@@ -9,13 +9,14 @@
 #include "driver/spi_master.h"
 
 
-#define UART_NUM        UART_NUM_1
-#define SPI_HOST_NUM    SPI2_HOST
+#define PN532_I2C_PORT          0
+#define UART_NUM                UART_NUM_1
+#define SPI_HOST_NUM            SPI2_HOST
 
 
 extern spi_device_handle_t spi_host;
 
-extern void uart_init(void);
+
 extern void wifi_init(void);
 extern void spi_host_init(void);
 extern wifi_config_t *wifi_get_conf(void);

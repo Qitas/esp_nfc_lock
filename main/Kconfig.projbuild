@@ -1,4 +1,4 @@
-menu "NFC Attendance System"
+menu "NFC Lock System"
 
 menu "Server Configuration"
 config SERVER_URL
@@ -77,15 +77,19 @@ endmenu
 menu "NFC Configuration"
 config PN532_RST_PIN
     int "PN532 RST Pin"
-    default 35
+    default 18
+
+config PN532_IRQ_PIN
+    int "PN532 IRQ Pin"
+    default 17
 
 config PN532_TX_PIN
     int "PN532 TX Pin"
-    default 36
+    default 16
 
 config PN532_RX_PIN
     int "PN532 RX Pin"
-    default 37
+    default 15
 endmenu
 
 menu "GUI Configuration"

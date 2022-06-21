@@ -32,53 +32,53 @@
  */
 
 #ifndef _LIBNFC_H_
-#  define _LIBNFC_H_
+#define _LIBNFC_H_
 
 #include <stdint.h>
 #include <stdbool.h>
 
-#  ifdef _WIN32
+#ifdef _WIN32
 /* Windows platform */
-#    ifndef _WINDLL
+#  ifndef _WINDLL
 /* CMake compilation */
-#      ifdef nfc_EXPORTS
-#        define  NFC_EXPORT __declspec(dllexport)
-#      else
-/* nfc_EXPORTS */
-#        define  NFC_EXPORT __declspec(dllimport)
-#      endif
-/* nfc_EXPORTS */
+#    ifdef nfc_EXPORTS
+#      define  NFC_EXPORT __declspec(dllexport)
 #    else
+/* nfc_EXPORTS */
+#      define  NFC_EXPORT __declspec(dllimport)
+#    endif
+/* nfc_EXPORTS */
+#  else
 /* _WINDLL */
 /* Manual makefile */
-#      define NFC_EXPORT
-#    endif
-/* _WINDLL */
-#  else
-/* _WIN32 */
 #    define NFC_EXPORT
 #  endif
+/* _WINDLL */
+#else
+/* _WIN32 */
+#define NFC_EXPORT
+#endif
 /* _WIN32 */
 
 #include <nfc/nfc-types.h>
 
-#  ifndef __has_attribute
-#    define __has_attribute(x) 0
-#  endif
+#ifndef __has_attribute
+#define __has_attribute(x) 0
+#endif
 
-#  if __has_attribute(nonnull) || defined(__GNUC__)
-#    define __has_attribute_nonnull 1
-#  endif
+#if __has_attribute(nonnull) || defined(__GNUC__)
+#define __has_attribute_nonnull 1
+#endif
 
-#  if __has_attribute_nonnull
-#    define ATTRIBUTE_NONNULL( param ) __attribute__((nonnull (param)))
-#  else
-#  define ATTRIBUTE_NONNULL( param )
-#  endif
+#if __has_attribute_nonnull
+#define ATTRIBUTE_NONNULL( param ) __attribute__((nonnull (param)))
+#else
+#define ATTRIBUTE_NONNULL( param )
+#endif
 
-#  ifdef __cplusplus
+#ifdef __cplusplus
 extern  "C" {
-#  endif                        // __cplusplus
+#endif                        // __cplusplus
 
 /* Library initialization/deinitialization */
 NFC_EXPORT void nfc_init(nfc_context **context) ATTRIBUTE_NONNULL(1);
@@ -220,7 +220,7 @@ NFC_EXPORT int str_nfc_target(char **buf, const nfc_target *pnt, bool verbose);
 #define NFC_ECHIP			-90
 
 
-#  ifdef __cplusplus
+#ifdef __cplusplus
 }
-#  endif                        // __cplusplus
+#endif                        // __cplusplus
 #endif                          // _LIBNFC_H_

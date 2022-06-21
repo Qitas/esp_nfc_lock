@@ -119,11 +119,11 @@
  * Start bytes, packet length, length checksum, direction, packet checksum and postamble are overhead
  */
 // The TFI is considered part of the overhead
-#  define PN53x_NORMAL_FRAME__DATA_MAX_LEN              254
-#  define PN53x_NORMAL_FRAME__OVERHEAD                  8
-#  define PN53x_EXTENDED_FRAME__DATA_MAX_LEN            264
-#  define PN53x_EXTENDED_FRAME__OVERHEAD                11
-#  define PN53x_ACK_FRAME__LEN                          6
+#define PN53x_NORMAL_FRAME__DATA_MAX_LEN              254
+#define PN53x_NORMAL_FRAME__OVERHEAD                  8
+#define PN53x_EXTENDED_FRAME__DATA_MAX_LEN            264
+#define PN53x_EXTENDED_FRAME__OVERHEAD                11
+#define PN53x_ACK_FRAME__LEN                          6
 
 typedef struct {
   uint8_t ui8Code;
@@ -142,11 +142,11 @@ typedef enum {
 } pn53x_type;
 
 #ifndef LOG
-#  define PNCMD( X, Y ) { X , Y }
-#  define PNCMD_TRACE( X ) do {} while(0)
+#define PNCMD( X, Y ) { X , Y }
+#define PNCMD_TRACE( X ) do {} while(0)
 #else
-#  define PNCMD( X, Y ) { X , Y, #X }
-#  define PNCMD_TRACE( X ) do { \
+#define PNCMD( X, Y ) { X , Y, #X }
+#define PNCMD_TRACE( X ) do { \
     for (size_t i=0; i<(sizeof(pn53x_commands)/sizeof(pn53x_command)); i++) { \
       if ( X == pn53x_commands[i].ui8Code ) { \
         log_put( LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "%s", pn53x_commands[i].abtCommandText ); \
@@ -221,16 +221,16 @@ typedef struct {
   const char *abtRegisterDescription;
 } pn53x_register;
 
-#  define PNREG( X, Y ) { X , #X, Y }
+#define PNREG( X, Y ) { X , #X, Y }
 
 #endif /* LOG */
 
 
 #ifndef LOG
-#  define PNREG_TRACE( X ) do { \
+#define PNREG_TRACE( X ) do { \
   } while(0)
 #else
-#  define PNREG_TRACE( X ) do { \
+#define PNREG_TRACE( X ) do { \
     for (size_t i=0; i<(sizeof(pn53x_registers)/sizeof(pn53x_register)); i++) { \
       if ( X == pn53x_registers[i].ui16Address ) { \
         log_put( LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "%s (%s)", pn53x_registers[i].abtRegisterText, pn53x_registers[i].abtRegisterDescription ); \

@@ -155,8 +155,8 @@ struct nfc_driver {
   int (*powerdown)(struct nfc_device *pnd);
 };
 
-#  define DEVICE_NAME_LENGTH  256
-#  define DEVICE_PORT_LENGTH  64
+#define DEVICE_NAME_LENGTH  256
+#define DEVICE_PORT_LENGTH  64
 
 #define MAX_USER_DEFINED_DEVICES 4
 

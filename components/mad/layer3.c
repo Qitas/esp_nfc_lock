@@ -35,7 +35,7 @@
 # ifdef HAVE_LIMITS_H
 #include <limits.h>
 # else
-#  define CHAR_BIT  8
+#define CHAR_BIT  8
 # endif
 
 # include "fixed.h"
@@ -1575,7 +1575,7 @@ void III_aliasreduce(mad_fixed_t xr[576], int lines)
 # if defined(ASO_IMDCT)
 void III_imdct_l(mad_fixed_t const [18], mad_fixed_t [36], unsigned int);
 # else
-#  if 1
+#if 1
 static
 void fastsdct(mad_fixed_t const x[9], mad_fixed_t y[18])
 {
@@ -1761,7 +1761,7 @@ void imdct36(mad_fixed_t const x[18], mad_fixed_t y[36])
     y[i + 2] = -tmp[(i + 2) - 27];
   }
 }
-#  else
+#else
 /*
  * NAME:	imdct36
  * DESCRIPTION:	perform X[18]->x[36] IMDCT
@@ -2052,7 +2052,7 @@ void imdct36(mad_fixed_t const X[18], mad_fixed_t x[36])
 
   x[26] = x[27] = MAD_F_MLZ(hi, lo) + t5;
 }
-#  endif
+#endif
 
 /*
  * NAME:	III_imdct_l()

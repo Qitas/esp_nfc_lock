@@ -11,3 +11,4 @@ NFC LOCK
 * GUI output (GIF animations)
 * OTA firmware update (HTTP / HTTPS)
 
+原工程基于idf v4.2 现在同步到v4.4

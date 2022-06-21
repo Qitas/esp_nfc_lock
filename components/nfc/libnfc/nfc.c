@@ -241,15 +241,13 @@ void nfc_init(nfc_context **context)
  * Should be called after closing all open devices and before your application terminates.
  * @param context The context to deinitialize
  */
-void
-nfc_exit(nfc_context *context)
+void nfc_exit(nfc_context *context)
 {
   while (nfc_drivers) {
     struct nfc_driver_list *pndl = (struct nfc_driver_list *) nfc_drivers;
     nfc_drivers = pndl->next;
     free(pndl);
   }
-
   nfc_context_free(context);
 }
 
@@ -273,7 +271,6 @@ nfc_exit(nfc_context *context)
 nfc_device * nfc_open(nfc_context *context, const nfc_connstring connstring)
 {
   nfc_device *pnd = NULL;
-
   nfc_connstring ncs;
   if (connstring == NULL) {
     if (!nfc_list_devices(context, &ncs, 1)) {
@@ -331,8 +328,7 @@ nfc_device * nfc_open(nfc_context *context, const nfc_connstring connstring)
  *
  * Initiator's selected tag is closed and the device, including allocated \a nfc_device struct, is released.
  */
-void
-nfc_close(nfc_device *pnd)
+void nfc_close(nfc_device *pnd)
 {
   if (pnd) {
     // Close, clean up and release the device
@@ -437,8 +433,7 @@ size_t nfc_list_devices(nfc_context *context, nfc_connstring connstrings[], cons
  *
  * @see nfc_property enum values
  */
-int
-nfc_device_set_property_int(nfc_device *pnd, const nfc_property property, const int value)
+int nfc_device_set_property_int(nfc_device *pnd, const nfc_property property, const int value)
 {
   log_put(LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "set_property_int %s %s", nfc_property_name[property], value ? "True" : "False");
   HAL(device_set_property_int, pnd, property, value);
@@ -457,8 +452,7 @@ nfc_device_set_property_int(nfc_device *pnd, const nfc_property property, const 
  * configuring the \e PN53X chip features (handle, activate, infinite and
  * accept).
  */
-int
-nfc_device_set_property_bool(nfc_device *pnd, const nfc_property property, const bool bEnable)
+int nfc_device_set_property_bool(nfc_device *pnd, const nfc_property property, const bool bEnable)
 {
   log_put(LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "set_property_bool %s %s", nfc_property_name[property], bEnable ? "True" : "False");
   HAL(device_set_property_bool, pnd, property, bEnable);
@@ -484,8 +478,7 @@ nfc_device_set_property_bool(nfc_device *pnd, const nfc_property property, const
  * - Let the device try forever to find a target (NP_INFINITE_SELECT = true)
  * - RF field is shortly dropped (if it was enabled) then activated again
  */
-int
-nfc_initiator_init(nfc_device *pnd)
+int nfc_initiator_init(nfc_device *pnd)
 {
   int res = 0;
   // Drop the field for a while
@@ -553,8 +546,7 @@ nfc_initiator_init_secure_element(nfc_device *pnd)
  * The chip needs to know with what kind of tag it is dealing with, therefore
  * the initial modulation and speed (106, 212 or 424 kbps) should be supplied.
  */
-int
-nfc_initiator_select_passive_target(nfc_device *pnd,
+int nfc_initiator_select_passive_target(nfc_device *pnd,
                                     const nfc_modulation nm,
                                     const uint8_t *pbtInitData, const size_t szInitData,
                                     nfc_target *pnt)
@@ -596,8 +588,7 @@ nfc_initiator_select_passive_target(nfc_device *pnd,
  * with, therefore the initial modulation and speed (106, 212 or 424 kbps)
  * should be supplied.
  */
-int
-nfc_initiator_list_passive_targets(nfc_device *pnd,
+int nfc_initiator_list_passive_targets(nfc_device *pnd,
                                    const nfc_modulation nm,
                                    nfc_target ant[], const size_t szTargets)
 {
@@ -969,8 +960,7 @@ nfc_initiator_transceive_bits_timed(nfc_device *pnd,
  * If timeout equals to 0, the function blocks indefinitely (until an error is raised or function is completed)
  * If timeout equals to -1, the default timeout will be used
  */
-int
-nfc_target_init(nfc_device *pnd, nfc_target *pnt, uint8_t *pbtRx, const size_t szRx, int timeout)
+int nfc_target_init(nfc_device *pnd, nfc_target *pnt, uint8_t *pbtRx, const size_t szRx, int timeout)
 {
   int res = 0;
   // Disallow invalid frame
@@ -1027,8 +1017,7 @@ nfc_idle(nfc_device *pnd)
  *
  * @note The blocking function (ie. nfc_target_init()) will failed with DEABORT error.
  */
-int
-nfc_abort_command(nfc_device *pnd)
+int nfc_abort_command(nfc_device *pnd)
 {
   HAL(abort_command, pnd);
 }

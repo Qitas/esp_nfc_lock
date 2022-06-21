@@ -10,7 +10,6 @@
 #include "user/nfc_app.h"
 #include "user/http_app.h"
 #include "user/audio_player.h"
-
 #include "esp_log.h"
 #include "nvs_flash.h"
 
@@ -33,7 +32,6 @@ static void chip_init(void)
     ESP_ERROR_CHECK(ret);
     ESP_LOGI(TAG, "initialized.");
     wifi_init();
-    uart_init();
 #ifdef CONFIG_ENABLE_AUDIO_PROMPT
     i2s_output_init();
 #endif
@@ -49,7 +47,7 @@ static void chip_init(void)
 ********************************************************************************/
 static void rfid_init(void)
 {
-    pn532_init();
+    pn532_uart_init();
 }
 /*******************************************************************************
 **函数信息 ：

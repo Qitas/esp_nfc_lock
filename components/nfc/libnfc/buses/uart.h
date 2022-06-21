@@ -44,8 +44,8 @@
 
 // Define shortcut to types to make code more readable
 typedef void *serial_port;
-#  define INVALID_SERIAL_PORT (void*)(~1)
-#  define CLAIMED_SERIAL_PORT (void*)(~2)
+#define INVALID_SERIAL_PORT (void*)(~1)
+#define CLAIMED_SERIAL_PORT (void*)(~2)
 
 serial_port uart_open(const char *pcPortName);
 void    uart_close(const serial_port sp);

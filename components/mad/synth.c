@@ -115,30 +115,30 @@ void mad_synth_mute(struct mad_synth *synth)
 /* FPM_DEFAULT without OPT_SSO will actually lose accuracy and performance */
 
 # if defined(FPM_DEFAULT) && !defined(OPT_SSO)
-#  define OPT_SSO
+#define OPT_SSO
 # endif
 
 /* second SSO shift, with rounding */
 
 # if defined(OPT_SSO)
-#  define SHIFT(x)  (((x) + (1L << 11)) >> 12)
+#define SHIFT(x)  (((x) + (1L << 11)) >> 12)
 # else
-#  define SHIFT(x)  (x)
+#define SHIFT(x)  (x)
 # endif
 
 /* possible DCT speed optimization */
 
 # if defined(OPT_SPEED) && defined(MAD_F_MLX)
-#  define OPT_DCTO
-#  define MUL(x, y)  \
+#define OPT_DCTO
+#define MUL(x, y)  \
     ({ mad_fixed64hi_t hi;  \
        mad_fixed64lo_t lo;  \
        MAD_F_MLX(hi, lo, (x), (y));  \
        hi << (32 - MAD_F_SCALEBITS - 3);  \
     })
 # else
-#  undef OPT_DCTO
-#  define MUL(x, y)  mad_f_mul((x), (y))
+#undef OPT_DCTO
+#define MUL(x, y)  mad_f_mul((x), (y))
 # endif
 
 /*
@@ -176,69 +176,69 @@ void dct32(mad_fixed_t const in[32], unsigned int slot,
   /* costab[i] = cos(PI / (2 * 32) * i) */
 
 # if defined(OPT_DCTO)
-#  define costab1	MAD_F(0x7fd8878e)
-#  define costab2	MAD_F(0x7f62368f)
-#  define costab3	MAD_F(0x7e9d55fc)
-#  define costab4	MAD_F(0x7d8a5f40)
-#  define costab5	MAD_F(0x7c29fbee)
-#  define costab6	MAD_F(0x7a7d055b)
-#  define costab7	MAD_F(0x78848414)
-#  define costab8	MAD_F(0x7641af3d)
-#  define costab9	MAD_F(0x73b5ebd1)
-#  define costab10	MAD_F(0x70e2cbc6)
-#  define costab11	MAD_F(0x6dca0d14)
-#  define costab12	MAD_F(0x6a6d98a4)
-#  define costab13	MAD_F(0x66cf8120)
-#  define costab14	MAD_F(0x62f201ac)
-#  define costab15	MAD_F(0x5ed77c8a)
-#  define costab16	MAD_F(0x5a82799a)
-#  define costab17	MAD_F(0x55f5a4d2)
-#  define costab18	MAD_F(0x5133cc94)
-#  define costab19	MAD_F(0x4c3fdff4)
-#  define costab20	MAD_F(0x471cece7)
-#  define costab21	MAD_F(0x41ce1e65)
-#  define costab22	MAD_F(0x3c56ba70)
-#  define costab23	MAD_F(0x36ba2014)
-#  define costab24	MAD_F(0x30fbc54d)
-#  define costab25	MAD_F(0x2b1f34eb)
-#  define costab26	MAD_F(0x25280c5e)
-#  define costab27	MAD_F(0x1f19f97b)
-#  define costab28	MAD_F(0x18f8b83c)
-#  define costab29	MAD_F(0x12c8106f)
-#  define costab30	MAD_F(0x0c8bd35e)
-#  define costab31	MAD_F(0x0647d97c)
+#define costab1	MAD_F(0x7fd8878e)
+#define costab2	MAD_F(0x7f62368f)
+#define costab3	MAD_F(0x7e9d55fc)
+#define costab4	MAD_F(0x7d8a5f40)
+#define costab5	MAD_F(0x7c29fbee)
+#define costab6	MAD_F(0x7a7d055b)
+#define costab7	MAD_F(0x78848414)
+#define costab8	MAD_F(0x7641af3d)
+#define costab9	MAD_F(0x73b5ebd1)
+#define costab10	MAD_F(0x70e2cbc6)
+#define costab11	MAD_F(0x6dca0d14)
+#define costab12	MAD_F(0x6a6d98a4)
+#define costab13	MAD_F(0x66cf8120)
+#define costab14	MAD_F(0x62f201ac)
+#define costab15	MAD_F(0x5ed77c8a)
+#define costab16	MAD_F(0x5a82799a)
+#define costab17	MAD_F(0x55f5a4d2)
+#define costab18	MAD_F(0x5133cc94)
+#define costab19	MAD_F(0x4c3fdff4)
+#define costab20	MAD_F(0x471cece7)
+#define costab21	MAD_F(0x41ce1e65)
+#define costab22	MAD_F(0x3c56ba70)
+#define costab23	MAD_F(0x36ba2014)
+#define costab24	MAD_F(0x30fbc54d)
+#define costab25	MAD_F(0x2b1f34eb)
+#define costab26	MAD_F(0x25280c5e)
+#define costab27	MAD_F(0x1f19f97b)
+#define costab28	MAD_F(0x18f8b83c)
+#define costab29	MAD_F(0x12c8106f)
+#define costab30	MAD_F(0x0c8bd35e)
+#define costab31	MAD_F(0x0647d97c)
 # else
-#  define costab1	MAD_F(0x0ffb10f2)  /* 0.998795456 */
-#  define costab2	MAD_F(0x0fec46d2)  /* 0.995184727 */
-#  define costab3	MAD_F(0x0fd3aac0)  /* 0.989176510 */
-#  define costab4	MAD_F(0x0fb14be8)  /* 0.980785280 */
-#  define costab5	MAD_F(0x0f853f7e)  /* 0.970031253 */
-#  define costab6	MAD_F(0x0f4fa0ab)  /* 0.956940336 */
-#  define costab7	MAD_F(0x0f109082)  /* 0.941544065 */
-#  define costab8	MAD_F(0x0ec835e8)  /* 0.923879533 */
-#  define costab9	MAD_F(0x0e76bd7a)  /* 0.903989293 */
-#  define costab10	MAD_F(0x0e1c5979)  /* 0.881921264 */
-#  define costab11	MAD_F(0x0db941a3)  /* 0.857728610 */
-#  define costab12	MAD_F(0x0d4db315)  /* 0.831469612 */
-#  define costab13	MAD_F(0x0cd9f024)  /* 0.803207531 */
-#  define costab14	MAD_F(0x0c5e4036)  /* 0.773010453 */
-#  define costab15	MAD_F(0x0bdaef91)  /* 0.740951125 */
-#  define costab16	MAD_F(0x0b504f33)  /* 0.707106781 */
-#  define costab17	MAD_F(0x0abeb49a)  /* 0.671558955 */
-#  define costab18	MAD_F(0x0a267993)  /* 0.634393284 */
-#  define costab19	MAD_F(0x0987fbfe)  /* 0.595699304 */
-#  define costab20	MAD_F(0x08e39d9d)  /* 0.555570233 */
-#  define costab21	MAD_F(0x0839c3cd)  /* 0.514102744 */
-#  define costab22	MAD_F(0x078ad74e)  /* 0.471396737 */
-#  define costab23	MAD_F(0x06d74402)  /* 0.427555093 */
-#  define costab24	MAD_F(0x061f78aa)  /* 0.382683432 */
-#  define costab25	MAD_F(0x0563e69d)  /* 0.336889853 */
-#  define costab26	MAD_F(0x04a5018c)  /* 0.290284677 */
-#  define costab27	MAD_F(0x03e33f2f)  /* 0.242980180 */
-#  define costab28	MAD_F(0x031f1708)  /* 0.195090322 */
-#  define costab29	MAD_F(0x0259020e)  /* 0.146730474 */
-#  define costab30	MAD_F(0x01917a6c)  /* 0.098017140 */
-#  define costab31	MAD_F(0x00c8fb30)  /* 0.049067674 */
+#define costab1	MAD_F(0x0ffb10f2)  /* 0.998795456 */
+#define costab2	MAD_F(0x0fec46d2)  /* 0.995184727 */
+#define costab3	MAD_F(0x0fd3aac0)  /* 0.989176510 */
+#define costab4	MAD_F(0x0fb14be8)  /* 0.980785280 */
+#define costab5	MAD_F(0x0f853f7e)  /* 0.970031253 */
+#define costab6	MAD_F(0x0f4fa0ab)  /* 0.956940336 */
+#define costab7	MAD_F(0x0f109082)  /* 0.941544065 */
+#define costab8	MAD_F(0x0ec835e8)  /* 0.923879533 */
+#define costab9	MAD_F(0x0e76bd7a)  /* 0.903989293 */
+#define costab10	MAD_F(0x0e1c5979)  /* 0.881921264 */
+#define costab11	MAD_F(0x0db941a3)  /* 0.857728610 */
+#define costab12	MAD_F(0x0d4db315)  /* 0.831469612 */
+#define costab13	MAD_F(0x0cd9f024)  /* 0.803207531 */
+#define costab14	MAD_F(0x0c5e4036)  /* 0.773010453 */
+#define costab15	MAD_F(0x0bdaef91)  /* 0.740951125 */
+#define costab16	MAD_F(0x0b504f33)  /* 0.707106781 */
+#define costab17	MAD_F(0x0abeb49a)  /* 0.671558955 */
+#define costab18	MAD_F(0x0a267993)  /* 0.634393284 */
+#define costab19	MAD_F(0x0987fbfe)  /* 0.595699304 */
+#define costab20	MAD_F(0x08e39d9d)  /* 0.555570233 */
+#define costab21	MAD_F(0x0839c3cd)  /* 0.514102744 */
+#define costab22	MAD_F(0x078ad74e)  /* 0.471396737 */
+#define costab23	MAD_F(0x06d74402)  /* 0.427555093 */
+#define costab24	MAD_F(0x061f78aa)  /* 0.382683432 */
+#define costab25	MAD_F(0x0563e69d)  /* 0.336889853 */
+#define costab26	MAD_F(0x04a5018c)  /* 0.290284677 */
+#define costab27	MAD_F(0x03e33f2f)  /* 0.242980180 */
+#define costab28	MAD_F(0x031f1708)  /* 0.195090322 */
+#define costab29	MAD_F(0x0259020e)  /* 0.146730474 */
+#define costab30	MAD_F(0x01917a6c)  /* 0.098017140 */
+#define costab31	MAD_F(0x00c8fb30)  /* 0.049067674 */
 # endif
 
   t0   = in[0]  + in[31];  t16  = MUL(in[0]  - in[31], costab1);
@@ -543,28 +543,28 @@ void dct32(mad_fixed_t const in[32], unsigned int slot,
 /* third SSO shift and/or D[] optimization preshift */
 
 # if defined(OPT_SSO)
-#  if MAD_F_FRACBITS != 28
-#   error "MAD_F_FRACBITS must be 28 to use OPT_SSO"
-#  endif
-#  define ML0(hi, lo, x, y)	((lo)  = (x) * (y))
-#  define MLA(hi, lo, x, y)	((lo) += (x) * (y))
-#  define MLN(hi, lo)		((lo)  = -(lo))
-#  define MLZ(hi, lo)		((void) (hi), (mad_fixed_t) (lo))
-#  define SHIFT(x)		((x) >> 2)
-#  define PRESHIFT(x)		((MAD_F(x) + (1L << 13)) >> 14)
+#if MAD_F_FRACBITS != 28
+# error "MAD_F_FRACBITS must be 28 to use OPT_SSO"
+#endif
+#define ML0(hi, lo, x, y)	((lo)  = (x) * (y))
+#define MLA(hi, lo, x, y)	((lo) += (x) * (y))
+#define MLN(hi, lo)		((lo)  = -(lo))
+#define MLZ(hi, lo)		((void) (hi), (mad_fixed_t) (lo))
+#define SHIFT(x)		((x) >> 2)
+#define PRESHIFT(x)		((MAD_F(x) + (1L << 13)) >> 14)
 # else
-#  define ML0(hi, lo, x, y)	MAD_F_ML0((hi), (lo), (x), (y))
-#  define MLA(hi, lo, x, y)	MAD_F_MLA((hi), (lo), (x), (y))
-#  define MLN(hi, lo)		MAD_F_MLN((hi), (lo))
-#  define MLZ(hi, lo)		MAD_F_MLZ((hi), (lo))
-#  define SHIFT(x)		(x)
-#  if defined(MAD_F_SCALEBITS)
-#   undef  MAD_F_SCALEBITS
-#   define MAD_F_SCALEBITS	(MAD_F_FRACBITS - 12)
-#   define PRESHIFT(x)		(MAD_F(x) >> 12)
-#  else
-#   define PRESHIFT(x)		MAD_F(x)
-#  endif
+#define ML0(hi, lo, x, y)	MAD_F_ML0((hi), (lo), (x), (y))
+#define MLA(hi, lo, x, y)	MAD_F_MLA((hi), (lo), (x), (y))
+#define MLN(hi, lo)		MAD_F_MLN((hi), (lo))
+#define MLZ(hi, lo)		MAD_F_MLZ((hi), (lo))
+#define SHIFT(x)		(x)
+#if defined(MAD_F_SCALEBITS)
+# undef  MAD_F_SCALEBITS
+# define MAD_F_SCALEBITS	(MAD_F_FRACBITS - 12)
+# define PRESHIFT(x)		(MAD_F(x) >> 12)
+#else
+# define PRESHIFT(x)		MAD_F(x)
+#endif
 # endif
 
 static

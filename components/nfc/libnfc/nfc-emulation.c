@@ -44,8 +44,7 @@
  * If timeout equals to 0, the function blocks indefinitely (until an error is raised or function is completed)
  * If timeout equals to -1, the default timeout will be used
  */
-int
-nfc_emulate_target(nfc_device *pnd, struct nfc_emulator *emulator, const int timeout)
+int nfc_emulate_target(nfc_device *pnd, struct nfc_emulator *emulator, const int timeout)
 {
   uint8_t abtRx[ISO7816_SHORT_R_APDU_MAX_LEN];
   uint8_t abtTx[ISO7816_SHORT_C_APDU_MAX_LEN];

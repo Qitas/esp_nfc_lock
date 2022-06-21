@@ -6,6 +6,6 @@
 
 extern void pn532_power_reset(uint8_t val);
 
-extern void pn532_init(void);
+extern void pn532_uart_init(void);
 
 #endif /* INC_BOARD_PN532_H_ */

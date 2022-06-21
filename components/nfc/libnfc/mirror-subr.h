@@ -29,7 +29,7 @@
  */
 
 #ifndef _LIBNFC_MIRROR_SUBR_H_
-#  define _LIBNFC_MIRROR_SUBR_H_
+#define _LIBNFC_MIRROR_SUBR_H_
 
 #include <stdint.h>
 

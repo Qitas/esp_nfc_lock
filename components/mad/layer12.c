@@ -28,7 +28,7 @@
 # ifdef HAVE_LIMITS_H
 #include <limits.h>
 # else
-#  define CHAR_BIT  8
+#define CHAR_BIT  8
 # endif
 
 # include "fixed.h"

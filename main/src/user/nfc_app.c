@@ -21,8 +21,8 @@
 #define RX_FRAME_PRFX_LEN (10)
 #define RX_FRAME_DATA_LEN (32)
 
-#define RX_FRAME_LEN (RX_FRAME_PRFX_LEN + RX_FRAME_DATA_LEN)
-#define TX_FRAME_LEN (10)
+#define RX_FRAME_LEN    (RX_FRAME_PRFX_LEN + RX_FRAME_DATA_LEN)
+#define TX_FRAME_LEN    (10)
 
 static uint8_t rx_data[RX_FRAME_LEN + 1] = {0x00};
 static uint8_t tx_data[TX_FRAME_LEN + 1] = {0x00, 0xA4, 0x04, 0x00, 0x05};
@@ -59,15 +59,12 @@ static void nfc_app_task_handle(void *pvParameter)
         .nbr = NBR_106
     };
     portTickType xLastWakeTime;
-
     str2byte(RX_FRAME_PRFX, (char *)tx_data + 5);
-
     nfc_init(&context);
     if (context == NULL) {
         ESP_LOGE(TAG, "failed to init libnfc");
         goto err;
     }
-
     while (1) {
         xEventGroupWaitBits(
             user_event_group,
@@ -80,9 +77,9 @@ static void nfc_app_task_handle(void *pvParameter)
         while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
             ESP_LOGE(TAG, "device hard reset");
             pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
-            vTaskDelay(100 / portTICK_RATE_MS);
+            vTaskDelay(1000 / portTICK_RATE_MS);
             pn532_power_reset(1);
-            vTaskDelay(100 / portTICK_RATE_MS);
+            vTaskDelay(1000 / portTICK_RATE_MS);
         }
 
         int res = 0;
@@ -99,9 +96,7 @@ static void nfc_app_task_handle(void *pvParameter)
         } else {
             ESP_LOGE(TAG, "failed to init device");
         }
-
         nfc_close(pnd);
-
         if (res > 0) {
             if (strstr((char *)rx_data, RX_FRAME_PRFX) != NULL &&
                 strlen((char *)rx_data + RX_FRAME_PRFX_LEN) == RX_FRAME_DATA_LEN) {

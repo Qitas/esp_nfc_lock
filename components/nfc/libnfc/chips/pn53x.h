@@ -31,69 +31,69 @@
  */
 
 #ifndef __NFC_CHIPS_PN53X_H__
-#  define __NFC_CHIPS_PN53X_H__
+#define __NFC_CHIPS_PN53X_H__
 
 #include <nfc/nfc-types.h>
 #include "pn53x-internal.h"
 
 // Registers and symbols masks used to covers parts within a register
 //   PN53X_REG_CIU_TxMode
-#  define SYMBOL_TX_CRC_ENABLE      0x80
-#  define SYMBOL_TX_SPEED           0x70
+#define SYMBOL_TX_CRC_ENABLE      0x80
+#define SYMBOL_TX_SPEED           0x70
 // TX_FRAMING bits explanation:
 //   00 : ISO/IEC 14443A/MIFARE and Passive Communication mode 106 kbit/s
 //   01 : Active Communication mode
 //   10 : FeliCa and Passive Communication mode at 212 kbit/s and 424 kbit/s
 //   11 : ISO/IEC 14443B
-#  define SYMBOL_TX_FRAMING         0x03
+#define SYMBOL_TX_FRAMING         0x03
 
 //   PN53X_REG_Control_switch_rng
-#  define SYMBOL_CURLIMOFF          0x08     /* When set to 1, the 100 mA current limitations is desactivated. */
-#  define SYMBOL_SIC_SWITCH_EN      0x10     /* When set to logic 1, the SVDD switch is enabled and the SVDD output delivers power to secure IC and internal pads (SIGIN, SIGOUT and P34). */
-#  define SYMBOL_RANDOM_DATAREADY   0x02     /* When set to logic 1, a new random number is available. */
+#define SYMBOL_CURLIMOFF          0x08     /* When set to 1, the 100 mA current limitations is desactivated. */
+#define SYMBOL_SIC_SWITCH_EN      0x10     /* When set to logic 1, the SVDD switch is enabled and the SVDD output delivers power to secure IC and internal pads (SIGIN, SIGOUT and P34). */
+#define SYMBOL_RANDOM_DATAREADY   0x02     /* When set to logic 1, a new random number is available. */
 
 //   PN53X_REG_CIU_RxMode
-#  define SYMBOL_RX_CRC_ENABLE      0x80
-#  define SYMBOL_RX_SPEED           0x70
-#  define SYMBOL_RX_NO_ERROR        0x08
-#  define SYMBOL_RX_MULTIPLE        0x04
+#define SYMBOL_RX_CRC_ENABLE      0x80
+#define SYMBOL_RX_SPEED           0x70
+#define SYMBOL_RX_NO_ERROR        0x08
+#define SYMBOL_RX_MULTIPLE        0x04
 // RX_FRAMING follow same scheme than TX_FRAMING
-#  define SYMBOL_RX_FRAMING         0x03
+#define SYMBOL_RX_FRAMING         0x03
 
 //   PN53X_REG_CIU_TxAuto
-#  define SYMBOL_FORCE_100_ASK      0x40
-#  define SYMBOL_AUTO_WAKE_UP       0x20
-#  define SYMBOL_INITIAL_RF_ON      0x04
+#define SYMBOL_FORCE_100_ASK      0x40
+#define SYMBOL_AUTO_WAKE_UP       0x20
+#define SYMBOL_INITIAL_RF_ON      0x04
 
 //   PN53X_REG_CIU_ManualRCV
-#  define SYMBOL_PARITY_DISABLE     0x10
+#define SYMBOL_PARITY_DISABLE     0x10
 
 //   PN53X_REG_CIU_TMode
-#  define SYMBOL_TAUTO              0x80
-#  define SYMBOL_TPRESCALERHI       0x0F
+#define SYMBOL_TAUTO              0x80
+#define SYMBOL_TPRESCALERHI       0x0F
 
 //   PN53X_REG_CIU_TPrescaler
-#  define SYMBOL_TPRESCALERLO       0xFF
+#define SYMBOL_TPRESCALERLO       0xFF
 
 //   PN53X_REG_CIU_Command
-#  define SYMBOL_COMMAND            0x0F
-#  define SYMBOL_COMMAND_TRANSCEIVE 0xC
+#define SYMBOL_COMMAND            0x0F
+#define SYMBOL_COMMAND_TRANSCEIVE 0xC
 
 //   PN53X_REG_CIU_Status2
-#  define SYMBOL_MF_CRYPTO1_ON      0x08
+#define SYMBOL_MF_CRYPTO1_ON      0x08
 
 //   PN53X_REG_CIU_FIFOLevel
-#  define SYMBOL_FLUSH_BUFFER       0x80
-#  define SYMBOL_FIFO_LEVEL         0x7F
+#define SYMBOL_FLUSH_BUFFER       0x80
+#define SYMBOL_FIFO_LEVEL         0x7F
 
 //   PN53X_REG_CIU_Control
-#  define SYMBOL_INITIATOR          0x10
-#  define SYMBOL_RX_LAST_BITS       0x07
+#define SYMBOL_INITIATOR          0x10
+#define SYMBOL_RX_LAST_BITS       0x07
 
 //   PN53X_REG_CIU_BitFraming
-#  define SYMBOL_START_SEND         0x80
-#  define SYMBOL_RX_ALIGN           0x70
-#  define SYMBOL_TX_LAST_BITS       0x07
+#define SYMBOL_START_SEND         0x80
+#define SYMBOL_RX_ALIGN           0x70
+#define SYMBOL_TX_LAST_BITS       0x07
 
 // PN53X Support Byte flags
 #define SUPPORT_ISO14443A             0x01
@@ -101,24 +101,24 @@
 #define SUPPORT_ISO18092              0x04
 
 // Internal parameters flags
-#  define PARAM_NONE                  0x00
-#  define PARAM_NAD_USED              0x01
-#  define PARAM_DID_USED              0x02
-#  define PARAM_AUTO_ATR_RES          0x04
-#  define PARAM_AUTO_RATS             0x10
-#  define PARAM_14443_4_PICC          0x20 /* Only for PN532 */
-#  define PARAM_NFC_SECURE            0x20 /* Only for PN533 */
-#  define PARAM_NO_AMBLE              0x40 /* Only for PN532 */
+#define PARAM_NONE                  0x00
+#define PARAM_NAD_USED              0x01
+#define PARAM_DID_USED              0x02
+#define PARAM_AUTO_ATR_RES          0x04
+#define PARAM_AUTO_RATS             0x10
+#define PARAM_14443_4_PICC          0x20 /* Only for PN532 */
+#define PARAM_NFC_SECURE            0x20 /* Only for PN533 */
+#define PARAM_NO_AMBLE              0x40 /* Only for PN532 */
 
 // Radio Field Configure Items           // Configuration Data length
-#  define RFCI_FIELD                  0x01      //  1
-#  define RFCI_TIMING                 0x02      //  3
-#  define RFCI_RETRY_DATA             0x04      //  1
-#  define RFCI_RETRY_SELECT           0x05      //  3
-#  define RFCI_ANALOG_TYPE_A_106      0x0A      // 11
-#  define RFCI_ANALOG_TYPE_A_212_424  0x0B      //  8
-#  define RFCI_ANALOG_TYPE_B          0x0C      //  3
-#  define RFCI_ANALOG_TYPE_14443_4    0x0D      //  9
+#define RFCI_FIELD                  0x01      //  1
+#define RFCI_TIMING                 0x02      //  3
+#define RFCI_RETRY_DATA             0x04      //  1
+#define RFCI_RETRY_SELECT           0x05      //  3
+#define RFCI_ANALOG_TYPE_A_106      0x0A      // 11
+#define RFCI_ANALOG_TYPE_A_212_424  0x0B      //  8
+#define RFCI_ANALOG_TYPE_B          0x0C      //  3
+#define RFCI_ANALOG_TYPE_14443_4    0x0D      //  9
 
 /**
  * @enum pn53x_power_mode

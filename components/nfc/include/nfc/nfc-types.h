@@ -143,7 +143,7 @@ typedef enum {
 } nfc_property;
 
 // Compiler directive, set struct alignment to 1 uint8_t for compatibility
-#  pragma pack(1)
+#pragma pack(1)
 
 /**
  * @enum nfc_dep_mode
@@ -354,6 +354,6 @@ typedef struct {
 } nfc_target;
 
 // Reset struct alignment to default
-#  pragma pack()
+#pragma pack()
 
 #endif // _LIBNFC_TYPES_H_

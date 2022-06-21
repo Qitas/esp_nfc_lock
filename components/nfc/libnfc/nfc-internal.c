@@ -70,15 +70,12 @@ string_as_boolean(const char *s, bool *value)
   }
 }
 
-nfc_context *
-nfc_context_new(void)
+nfc_context * nfc_context_new(void)
 {
   nfc_context *res = malloc(sizeof(*res));
-
   if (!res) {
     return NULL;
   }
-
   // Set default context values
   res->allow_autoscan = true;
   res->allow_intrusive_scan = false;
@@ -159,8 +156,7 @@ nfc_context_new(void)
   return res;
 }
 
-void
-nfc_context_free(nfc_context *context)
+void nfc_context_free(nfc_context *context)
 {
   log_exit();
   free(context);

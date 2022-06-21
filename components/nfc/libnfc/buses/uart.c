@@ -42,11 +42,9 @@
 #define LOG_GROUP    NFC_LOG_GROUP_COM
 #define LOG_CATEGORY "libnfc.bus.uart"
 
-serial_port
-uart_open(const char *pcPortName)
+serial_port uart_open(const char *pcPortName)
 {
   serial_port sp = (serial_port)UART_NUM;
-
   sscanf(pcPortName, "uart%1u", (unsigned int *)&sp);
   if ((uart_port_t)sp >= UART_NUM_MAX) {
     return INVALID_SERIAL_PORT;
