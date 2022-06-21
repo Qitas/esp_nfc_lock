@@ -151,7 +151,6 @@ static void os_pwr_task_handle(void *pvParameters)
         } else if (uxBits & OS_PWR_SLEEP_BIT) {
             if (sleep_wait_bits) {
                 ESP_LOGW(OS_PWR_TAG, "waiting for unfinished jobs....");
-
                 xEventGroupWaitBits(
                     user_event_group,
                     sleep_wait_bits,
@@ -159,10 +158,8 @@ static void os_pwr_task_handle(void *pvParameters)
                     pdTRUE,
                     portMAX_DELAY
                 );
-
                 vTaskDelay(50 / portTICK_RATE_MS);
             }
-
             ESP_LOGW(OS_PWR_TAG, "sleep now");
             esp_deep_sleep_start();
         }
@@ -185,12 +182,9 @@ void os_init(void)
 {
     wifi_event_group = xEventGroupCreate();
     user_event_group = xEventGroupCreate();
-
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, ESP_EVENT_ANY_ID, &ip_event_handler, NULL));
     ESP_ERROR_CHECK(esp_event_handler_register(SC_EVENT, ESP_EVENT_ANY_ID, &sc_event_handler, NULL));
-
     xTaskCreatePinnedToCore(os_pwr_task_handle, "osPwrT", 1280, NULL, 5, NULL, 0);
 }

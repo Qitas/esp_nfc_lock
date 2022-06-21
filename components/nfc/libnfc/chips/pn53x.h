@@ -387,7 +387,7 @@ int    pn53x_TgInitAsTarget(struct nfc_device *pnd, pn53x_target_mode ptm,
                             uint8_t *pbtRx, const size_t szRxLen, uint8_t *pbtModeByte, int timeout);
 
 // RFConfiguration
-int    pn53x_RFConfiguration__RF_field(struct nfc_device *pnd, bool bEnable);
+int    pn53x_RFConfiguration_field(struct nfc_device *pnd, bool bEnable);
 int    pn53x_RFConfiguration__Various_timings(struct nfc_device *pnd, const uint8_t fATR_RES_Timeout, const uint8_t fRetryTimeout);
 int    pn53x_RFConfiguration__MaxRtyCOM(struct nfc_device *pnd, const uint8_t MaxRtyCOM);
 int    pn53x_RFConfiguration__MaxRetries(struct nfc_device *pnd, const uint8_t MxRtyATR, const uint8_t MxRtyPSL, const uint8_t MxRtyPassiveActivation);

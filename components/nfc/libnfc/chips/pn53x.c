@@ -47,7 +47,7 @@
 
 #include "mirror-subr.h"
 
-#define TAG "pn53X"
+#define TAG "PN53X"
 
 #define LOG_CATEGORY "libnfc.chip.pn53x"
 #define LOG_GROUP NFC_LOG_GROUP_CHIP
@@ -174,7 +174,6 @@ int pn53x_transceive(struct nfc_device *pnd, const uint8_t *pbtTx, const size_t 
       return res;
     }
   }
-
   PNCMD_TRACE(pbtTx[0]);
   if (timeout > 0) {
     log_put(LOG_GROUP, LOG_CATEGORY, NFC_LOG_PRIORITY_DEBUG, "Timeout value: %d", timeout);
@@ -373,8 +372,7 @@ pn53x_set_tx_bits(struct nfc_device *pnd, const uint8_t ui8Bits)
   return NFC_SUCCESS;
 }
 
-int
-pn53x_wrap_frame(const uint8_t *pbtTx, const size_t szTxBits, const uint8_t *pbtTxPar,
+int pn53x_wrap_frame(const uint8_t *pbtTx, const size_t szTxBits, const uint8_t *pbtTxPar,
                  uint8_t *pbtFrame)
 {
   uint8_t  btData;
@@ -429,8 +427,7 @@ pn53x_wrap_frame(const uint8_t *pbtTx, const size_t szTxBits, const uint8_t *pbt
   }
 }
 
-int
-pn53x_unwrap_frame(const uint8_t *pbtFrame, const size_t szFrameBits, uint8_t *pbtRx, uint8_t *pbtRxPar)
+int pn53x_unwrap_frame(const uint8_t *pbtFrame, const size_t szFrameBits, uint8_t *pbtRx, uint8_t *pbtRxPar)
 {
   uint8_t  btFrame;
   uint8_t  btData;
@@ -476,13 +473,11 @@ pn53x_unwrap_frame(const uint8_t *pbtFrame, const size_t szFrameBits, uint8_t *p
   }
 }
 
-int
-pn53x_decode_target_data(const uint8_t *pbtRawData, size_t szRawData, pn53x_type type, nfc_modulation_type nmt,
-                         nfc_target_info *pnti)
+int pn53x_decode_target_data(const uint8_t *pbtRawData, size_t szRawData, pn53x_type type, nfc_modulation_type nmt,
+                          nfc_target_info *pnti)
 {
   uint8_t szAttribRes;
   const uint8_t *pbtUid;
-
   switch (nmt) {
     case NMT_ISO14443A:
       // We skip the first byte: its the target number (Tg)
@@ -896,7 +891,7 @@ pn53x_set_property_bool(struct nfc_device *pnd, const nfc_property property, con
       return NFC_SUCCESS;
 
     case NP_ACTIVATE_FIELD:
-      return pn53x_RFConfiguration__RF_field(pnd, bEnable);
+      return pn53x_RFConfiguration_field(pnd, bEnable);
 
     case NP_ACTIVATE_CRYPTO1:
       btValue = (bEnable) ? SYMBOL_MF_CRYPTO1_ON : 0x00;
@@ -1017,8 +1012,7 @@ pn53x_idle(struct nfc_device *pnd)
   return NFC_SUCCESS;
 }
 
-int
-pn53x_check_communication(struct nfc_device *pnd)
+int pn53x_check_communication(struct nfc_device *pnd)
 {
   const uint8_t abtCmd[] = { Diagnose, 0x00, 'l', 'i', 'b', 'n', 'f', 'c' };
   const uint8_t abtExpectedRx[] = { 0x00, 'l', 'i', 'b', 'n', 'f', 'c' };
@@ -2839,15 +2833,13 @@ pn53x_strerror(const struct nfc_device *pnd)
   return pcRes;
 }
 
-int
-pn53x_RFConfiguration__RF_field(struct nfc_device *pnd, bool bEnable)
+int pn53x_RFConfiguration_field(struct nfc_device *pnd, bool bEnable)
 {
   uint8_t  abtCmd[] = { RFConfiguration, RFCI_FIELD, (bEnable) ? 0x01 : 0x00 };
   return pn53x_transceive(pnd, abtCmd, sizeof(abtCmd), NULL, 0, -1);
 }
 
-int
-pn53x_RFConfiguration__Various_timings(struct nfc_device *pnd, const uint8_t fATR_RES_Timeout, const uint8_t fRetryTimeout)
+int pn53x_RFConfiguration__Various_timings(struct nfc_device *pnd, const uint8_t fATR_RES_Timeout, const uint8_t fRetryTimeout)
 {
   uint8_t  abtCmd[] = {
     RFConfiguration,
@@ -2884,8 +2876,7 @@ pn53x_RFConfiguration__MaxRetries(struct nfc_device *pnd, const uint8_t MxRtyATR
   return pn53x_transceive(pnd, abtCmd, sizeof(abtCmd), NULL, 0, -1);
 }
 
-int
-pn53x_SetParameters(struct nfc_device *pnd, const uint8_t ui8Value)
+int pn53x_SetParameters(struct nfc_device *pnd, const uint8_t ui8Value)
 {
   uint8_t  abtCmd[] = { SetParameters, ui8Value };
   int res = 0;
@@ -2897,16 +2888,23 @@ pn53x_SetParameters(struct nfc_device *pnd, const uint8_t ui8Value)
   CHIP_DATA(pnd)->ui8Parameters = ui8Value;
   return NFC_SUCCESS;
 }
-
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：
+**输出参数 ：
+********************************************************************************/
 int pn532_SAMConfiguration(struct nfc_device *pnd, const pn532_sam_mode sam_mode, int timeout)
 {
   uint8_t abtCmd[] = { SAMConfiguration, sam_mode, 0x00, 0x01 };
+  // uint8_t abtCmd[] = { 0x14, 0x01, 0, 0x01 };
   size_t szCmd = sizeof(abtCmd);
   if (CHIP_DATA(pnd)->type != PN532) {
     // This function is not supported by pn531 neither pn533
     pnd->last_error = NFC_EDEVNOTSUPP;
     return pnd->last_error;
   }
+  // ESP_LOGE(TAG, "pn532_SAMConfiguration");
   switch (sam_mode) {
     case PSM_NORMAL:      // Normal mode
     case PSM_WIRED_CARD:  // Wired card mode
@@ -2924,6 +2922,7 @@ int pn532_SAMConfiguration(struct nfc_device *pnd, const pn532_sam_mode sam_mode
   }
   CHIP_DATA(pnd)->sam_mode = sam_mode;
   return (pn53x_transceive(pnd, abtCmd, szCmd, NULL, 0, timeout));
+  // return (pn53x_transceive(pnd, abtCmd, 4, NULL, 0, timeout));
 }
 
 int pn53x_PowerDown(struct nfc_device *pnd)
@@ -3058,8 +3057,7 @@ pn53x_InRelease(struct nfc_device *pnd, const uint8_t ui8Target)
   return (res >= 0) ? NFC_SUCCESS : res;
 }
 
-int
-pn53x_InAutoPoll(struct nfc_device *pnd,
+int pn53x_InAutoPoll(struct nfc_device *pnd,
                  const pn53x_target_type *ppttTargetTypes, const size_t szTargetTypes,
                  const uint8_t btPollNr, const uint8_t btPeriod, nfc_target *pntTargets, const int timeout)
 {

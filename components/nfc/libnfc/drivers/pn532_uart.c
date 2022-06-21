@@ -68,8 +68,8 @@ struct pn532_uart_data {
 };
 
 // Prototypes
-int     pn532_uart_ack(nfc_device *pnd);
-int     pn532_uart_wakeup(nfc_device *pnd);
+int  pn532_uart_ack(nfc_device *pnd);
+int  pn532_uart_wakeup(nfc_device *pnd);
 
 #define DRIVER_DATA(pnd) ((struct pn532_uart_data*)(pnd->driver_data))
 
@@ -320,8 +320,9 @@ static int pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t
         return res;
       }
       // ESP_LOGE(TAG, "pn532_uart_wakeup");
-      // According to PN532 application note, C106 appendix: to go out Low Vbat mode and enter in normal mode we need to send a SAMConfiguration command
+      // C106 appendix: to go out Low Vbat mode and enter in normal mode we need to send a SAMConfiguration command
       if ((res = pn532_SAMConfiguration(pnd, PSM_NORMAL, 1000)) < 0) {
+        // ESP_LOGE(TAG, "pn532_SAMConfiguration");
         return res;
       }
     }
@@ -369,8 +370,7 @@ static int pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t
   return NFC_SUCCESS;
 }
 
-static int
-pn532_uart_receive(nfc_device *pnd, uint8_t *pbtData, const size_t szDataLen, int timeout)
+static int pn532_uart_receive(nfc_device *pnd, uint8_t *pbtData, const size_t szDataLen, int timeout)
 {
   uint8_t  abtRxBuf[5];
   size_t len;
@@ -496,8 +496,7 @@ error:
   return pnd->last_error;
 }
 
-int
-pn532_uart_ack(nfc_device *pnd)
+int pn532_uart_ack(nfc_device *pnd)
 {
   if (POWERDOWN == CHIP_DATA(pnd)->power_mode) {
     int res = 0;

@@ -3,7 +3,7 @@
 #include "esp_log.h"
 
 #include "nfc/nfc.h"
-
+#include "sdkconfig.h"
 #include "core/os.h"
 #include "bsp/pn532.h"
 
@@ -13,6 +13,12 @@
 #include "user/nfc_app.h"
 #include "user/audio_player.h"
 #include "user/http_app_token.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "driver/gpio.h"
+#include "bsp/port.h"
 
 #define TAG "nfc_app"
 
@@ -65,13 +71,13 @@ static void nfc_app_task_handle(void *pvParameter)
         ESP_LOGE(TAG, "failed to init libnfc");
         goto err;
     }
-    // while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
-    //     ESP_LOGE(TAG, "device hard reset");
-    //     pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
-    //     vTaskDelay(1000 / portTICK_RATE_MS);
-    //     pn532_power_reset(1);
-    //     vTaskDelay(1000 / portTICK_RATE_MS);
-    // } 
+    while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {    
+        pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
+        vTaskDelay(400 / portTICK_RATE_MS);
+        pn532_power_reset(1);
+        ESP_LOGE(TAG, "device power reset");
+        vTaskDelay(100 / portTICK_RATE_MS);
+    } 
     while (true) {
         // xEventGroupWaitBits(
         //     user_event_group,
@@ -84,9 +90,9 @@ static void nfc_app_task_handle(void *pvParameter)
         while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
             ESP_LOGE(TAG, "device hard reset");
             pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
-            vTaskDelay(1000 / portTICK_RATE_MS);
+            vTaskDelay(400 / portTICK_RATE_MS);
             pn532_power_reset(1);
-            vTaskDelay(1000 / portTICK_RATE_MS);
+            vTaskDelay(100 / portTICK_RATE_MS);
         }
         int res = 0;
         if (nfc_initiator_init(pnd) >= 0) {
@@ -148,7 +154,40 @@ nfc_app_mode_t nfc_app_get_mode(void)
     return nfc_app_mode;
 }
 
+#define ENABLE_IRQ_ISR          1
+#define IRQ_PIN                 CONFIG_PN532_IRQ_PIN
+#define ESP_INTR_FLAG_DEFAULT   0
+
+static xQueueHandle pn532_irq_queue = NULL;
+
+static void IRAM_ATTR pn532_irq_callback(void *arg)
+{
+    // ESP_LOGE(TAG, "pn532_irq_callback");
+    uint32_t gpio_num =(uint32_t)arg;
+    xQueueSendFromISR(pn532_irq_queue, &gpio_num, NULL);
+}
+
 void nfc_app_init(void)
 {
+    pn532_uart_init();
     xTaskCreatePinnedToCore(nfc_app_task_handle, "nfcAppT", 5120*3, NULL, 5, NULL, 0);
+#ifdef ENABLE_IRQ_ISR
+    gpio_config_t irq_conf = {
+        .pin_bit_mask = BIT64(IRQ_PIN),
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = false,
+        .pull_down_en = false,
+        .intr_type = GPIO_INTR_NEGEDGE
+    };
+    gpio_config(&irq_conf);
+    if (pn532_irq_queue != NULL) vQueueDelete(pn532_irq_queue);
+    pn532_irq_queue = xQueueCreate(1, sizeof(uint32_t));
+    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+    gpio_isr_handler_add(IRQ_PIN, pn532_irq_callback, (void* )IRQ_PIN);
+    while (true) {
+        uint32_t io_num = 0;
+        xQueueReceive(pn532_irq_queue, &io_num, portMAX_DELAY);
+        ESP_LOGW (TAG, "xQueueReceive %d!",io_num);
+    }
+    #endif
 }

@@ -12,8 +12,6 @@
 
 // #define CONFIG_PN532_TX_PIN 16
 // #define CONFIG_PN532_RX_PIN 15
-#define ESP_INTR_FLAG_DEFAULT   0
-static xQueueHandle pn532_irq_queue = NULL;
 
 
 
@@ -24,19 +22,12 @@ static xQueueHandle pn532_irq_queue = NULL;
 #define SDA_PIN             CONFIG_PN532_TX_PIN
 #define SCL_PIN             CONFIG_PN532_RX_PIN
 #define SCL_PIN             CONFIG_PN532_RX_PIN
-#define ENABLE_IRQ_ISR      1
-#define ENABLE_IRQ_ISR      1
+
 
 
 void pn532_power_reset(uint8_t val)
 {
     gpio_set_level(CONFIG_PN532_RST_PIN, val);
-}
-static void IRAM_ATTR pn532_irq_callback(void *arg)
-{
-    ESP_LOGE(TAG, "pn532_irq_callback");
-    uint32_t gpio_num =(uint32_t)arg;
-    xQueueSendFromISR(pn532_irq_queue, &gpio_num, NULL);
 }
 
 static void pn532_reset(void)
@@ -59,20 +50,7 @@ void pn532_uart_init(void)
         .intr_type = GPIO_INTR_DISABLE
     };
     gpio_config(&rst_conf);
-#ifdef ENABLE_IRQ_ISR
-    gpio_config_t irq_conf = {
-        .pin_bit_mask = BIT64(IRQ_PIN),
-        .mode = GPIO_MODE_INPUT,
-        .pull_up_en = false,
-        .pull_down_en = false,
-        .intr_type = GPIO_INTR_NEGEDGE
-    };
-    gpio_config(&irq_conf);
-    if (pn532_irq_queue != NULL) vQueueDelete (pn532_irq_queue);
-    pn532_irq_queue = xQueueCreate(1, sizeof(uint32_t));
-    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-    gpio_isr_handler_add(IRQ_PIN, pn532_irq_callback, (void* )IRQ_PIN);
-#endif
+
     
     uart_config_t uart_conf = {
        .baud_rate = 115200,

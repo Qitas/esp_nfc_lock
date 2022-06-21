@@ -49,12 +49,10 @@ static void key_task(void *pvParameter)
 #ifdef CONFIG_ENABLE_SC_KEY
     portTickType xLastWakeTime;
     uint16_t count[sizeof(gpio_pin)] = {0};
-
     gpio_config_t io_conf = {
         .mode = GPIO_MODE_INPUT,
         .intr_type = GPIO_INTR_DISABLE
     };
-
     for (int i = 0; i < sizeof(gpio_pin); i++) {
         io_conf.pin_bit_mask = BIT64(gpio_pin[i]);
 
@@ -65,10 +63,8 @@ static void key_task(void *pvParameter)
             io_conf.pull_up_en = false;
             io_conf.pull_down_en = true;
         }
-
         gpio_config(&io_conf);
     }
-
     ESP_LOGI(TAG, "started.");
 
     while (1) {
@@ -82,12 +78,9 @@ static void key_task(void *pvParameter)
 
         if (uxBits & KEY_SCAN_CLR_BIT) {
             memset(&count, 0x00, sizeof(count));
-
             xEventGroupClearBits(user_event_group, KEY_SCAN_CLR_BIT);
         }
-
         xLastWakeTime = xTaskGetTickCount();
-
         for (int i = 0; i < sizeof(gpio_pin); i++) {
             if (gpio_get_level(gpio_pin[i]) == gpio_val[i]) {
                 if (++count[i] == gpio_hold[i] / 10) {
@@ -98,7 +91,6 @@ static void key_task(void *pvParameter)
                 count[i] = 0;
             }
         }
-
         vTaskDelayUntil(&xLastWakeTime, 10 / portTICK_RATE_MS);
     }
 #endif
@@ -107,7 +99,6 @@ static void key_task(void *pvParameter)
 void key_set_scan_mode(key_scan_mode_t idx)
 {
     key_scan_mode = idx;
-
     if (key_scan_mode == KEY_SCAN_MODE_IDX_ON) {
         xEventGroupSetBits(user_event_group, KEY_SCAN_RUN_BIT | KEY_SCAN_CLR_BIT);
     } else {
@@ -123,6 +114,5 @@ key_scan_mode_t key_get_scan_mode(void)
 void key_init(void)
 {
     key_set_scan_mode(KEY_SCAN_MODE_IDX_ON);
-
     xTaskCreatePinnedToCore(key_task, "keyT", 1536, NULL, 5, NULL, 1);
 }
