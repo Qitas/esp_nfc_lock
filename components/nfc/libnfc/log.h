@@ -45,6 +45,7 @@
 #define NFC_LOG_GROUP_COM       5
 #define NFC_LOG_GROUP_LIBUSB    6
 
+#define LOG 1
 /*
   To enable log only for one (or more) group, you can use this formula:
     log_level = NFC_LOG_PRIORITY(main) + NFC_LOG_PRIORITY(group) * 2 ^ (NFC_LOG_GROUP(group) * 2)

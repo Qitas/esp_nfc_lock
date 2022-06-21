@@ -31,13 +31,15 @@ static void chip_init(void)
     }
     ESP_ERROR_CHECK(ret);
     ESP_LOGI(TAG, "initialized.");
-    wifi_init();
+    
 #ifdef CONFIG_ENABLE_AUDIO_PROMPT
     i2s_output_init();
 #endif
 #ifdef CONFIG_ENABLE_GUI
     spi_host_init();
 #endif
+    
+    
 }
 /*******************************************************************************
 **函数信息 ：
@@ -45,9 +47,10 @@ static void chip_init(void)
 **输入参数 ：无
 **输出参数 ：无
 ********************************************************************************/
-static void rfid_init(void)
+static void lock_init(void)
 {
     pn532_uart_init();
+    nfc_app_init();
 }
 /*******************************************************************************
 **函数信息 ：
@@ -55,10 +58,10 @@ static void rfid_init(void)
 **输入参数 ：无
 **输出参数 ：无
 ********************************************************************************/
-static void user_init(void)
+static void network_init(void)
 {
-    ntp_init();
-    nfc_app_init();
+    wifi_init();
+    ntp_init();   
     http_app_init();
 #ifdef CONFIG_ENABLE_SC_KEY
     key_init();
@@ -85,6 +88,6 @@ static void user_init(void)
 void app_main(void)
 {
     chip_init();
-    rfid_init();
-    user_init();
+    lock_init();
+    // network_init();
 }

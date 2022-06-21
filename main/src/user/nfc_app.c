@@ -65,14 +65,21 @@ static void nfc_app_task_handle(void *pvParameter)
         ESP_LOGE(TAG, "failed to init libnfc");
         goto err;
     }
-    while (1) {
-        xEventGroupWaitBits(
-            user_event_group,
-            NFC_APP_RUN_BIT,
-            pdFALSE,
-            pdFALSE,
-            portMAX_DELAY
-        );
+    // while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
+    //     ESP_LOGE(TAG, "device hard reset");
+    //     pn532_power_reset(0);  //通过电源控制管脚控制模块的复位
+    //     vTaskDelay(1000 / portTICK_RATE_MS);
+    //     pn532_power_reset(1);
+    //     vTaskDelay(1000 / portTICK_RATE_MS);
+    // } 
+    while (true) {
+        // xEventGroupWaitBits(
+        //     user_event_group,
+        //     NFC_APP_RUN_BIT,
+        //     pdFALSE,
+        //     pdFALSE,
+        //     portMAX_DELAY
+        // );
         xLastWakeTime = xTaskGetTickCount();
         while ((pnd = nfc_open(context, "pn532_uart:uart1:115200")) == NULL) {
             ESP_LOGE(TAG, "device hard reset");
@@ -81,19 +88,22 @@ static void nfc_app_task_handle(void *pvParameter)
             pn532_power_reset(1);
             vTaskDelay(1000 / portTICK_RATE_MS);
         }
-
         int res = 0;
         if (nfc_initiator_init(pnd) >= 0) {
             if (nfc_initiator_select_passive_target(pnd, nm, NULL, 0, &nt) >= 0) {
-                if ((res = nfc_initiator_transceive_bytes(pnd, tx_data, TX_FRAME_LEN, rx_data, RX_FRAME_LEN, -1)) >= 0) {
-                    rx_data[res] = 0x00;
-                } else {
-                    ESP_LOGW(TAG, "failed to transceive bytes");
-                }
-            } else {
-                ESP_LOGI(TAG, "waiting for NFC target....");
-            }
-        } else {
+                ESP_LOGI(TAG, "abtUid %d：%d %d %d %d",nt.nti.nai.szUidLen,nt.nti.nai.abtUid[0],nt.nti.nai.abtUid[1],nt.nti.nai.abtUid[2],nt.nti.nai.abtUid[3]);
+                // if ((res = nfc_initiator_transceive_bytes(pnd, tx_data, TX_FRAME_LEN, rx_data, RX_FRAME_LEN, -1)) >= 0) {
+                //     rx_data[res] = 0x00;
+                // } 
+                // else {
+                //     ESP_LOGW(TAG, "failed to transceive bytes");
+                // }
+            } 
+            // else {
+            //     ESP_LOGI(TAG, "waiting for NFC target....");
+            // }
+        } 
+        else {
             ESP_LOGE(TAG, "failed to init device");
         }
         nfc_close(pnd);
@@ -114,18 +124,15 @@ static void nfc_app_task_handle(void *pvParameter)
 
 err:
     nfc_exit(context);
-
     ESP_LOGE(TAG, "unrecoverable error");
-
     os_pwr_reset_wait(OS_PWR_DUMMY_BIT);
-
     vTaskDelete(NULL);
 }
+
 
 void nfc_app_set_mode(nfc_app_mode_t idx)
 {
     nfc_app_mode = idx;
-
     if (nfc_app_mode == NFC_APP_MODE_IDX_ON) {
         pn532_power_reset(1);
         vTaskDelay(100 / portTICK_RATE_MS);
@@ -143,5 +150,5 @@ nfc_app_mode_t nfc_app_get_mode(void)
 
 void nfc_app_init(void)
 {
-    xTaskCreatePinnedToCore(nfc_app_task_handle, "nfcAppT", 5120, NULL, 5, NULL, 0);
+    xTaskCreatePinnedToCore(nfc_app_task_handle, "nfcAppT", 5120*3, NULL, 5, NULL, 0);
 }

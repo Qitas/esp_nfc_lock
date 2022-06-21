@@ -7,6 +7,7 @@
 #include "driver/gpio.h"
 #include "bsp/port.h"
 #include "sdkconfig.h"
+
 #define TAG "pn532"
 
 // #define CONFIG_PN532_TX_PIN 16
@@ -24,6 +25,7 @@ static xQueueHandle pn532_irq_queue = NULL;
 #define SCL_PIN             CONFIG_PN532_RX_PIN
 #define SCL_PIN             CONFIG_PN532_RX_PIN
 #define ENABLE_IRQ_ISR      1
+#define ENABLE_IRQ_ISR      1
 
 
 void pn532_power_reset(uint8_t val)
@@ -32,17 +34,18 @@ void pn532_power_reset(uint8_t val)
 }
 static void IRAM_ATTR pn532_irq_callback(void *arg)
 {
-  uint32_t gpio_num =(uint32_t)arg;
-  xQueueSendFromISR(pn532_irq_queue, &gpio_num, NULL);
+    ESP_LOGE(TAG, "pn532_irq_callback");
+    uint32_t gpio_num =(uint32_t)arg;
+    xQueueSendFromISR(pn532_irq_queue, &gpio_num, NULL);
 }
 
-static void resetPN532 ()
+static void pn532_reset(void)
 {
   gpio_set_level (RESET_PIN, 1);
   gpio_set_level (RESET_PIN, 0);
   vTaskDelay (400 / portTICK_PERIOD_MS);
   gpio_set_level (RESET_PIN, 1);
-  vTaskDelay (10 / portTICK_PERIOD_MS);	// Small delay required before taking other actions after reset.
+  vTaskDelay (10 / portTICK_PERIOD_MS);
 }
 
 
@@ -82,6 +85,7 @@ void pn532_uart_init(void)
     ESP_ERROR_CHECK(uart_driver_install(UART_NUM, 256, 256, 0, NULL, 0));
     ESP_ERROR_CHECK(uart_set_pin(UART_NUM, PN532_RX, PN532_TX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
     ESP_ERROR_CHECK(uart_flush_input(UART_NUM));
+    pn532_reset();
     ESP_LOGI(TAG, "rst: %d, irq: %d, txd: %d, rxd: %d",RESET_PIN,IRQ_PIN,PN532_RX,PN532_TX);
 }
 
@@ -112,7 +116,7 @@ void pn532_uart_init(void)
 //   //configure GPIO with the given settings
 //   if (gpio_config (&io_conf) != ESP_OK) return false;
 //   // Reset the PN532
-//   // resetPN532 ();
+//   // pn532_reset ();
 //   if (pn532_irq_queue != NULL) vQueueDelete (pn532_irq_queue);
 //   pn532_irq_queue = xQueueCreate(1, sizeof(uint32_t));
 //   gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);

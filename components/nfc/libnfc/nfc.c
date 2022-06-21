@@ -158,8 +158,7 @@ const char *nfc_property_name[] = {
   "NP_FORCE_SPEED_106"
 };
 
-static void
-nfc_drivers_init(void)
+static void nfc_drivers_init(void)
 {
 #if defined (DRIVER_PN53X_USB_ENABLED)
   nfc_register_driver(&pn53x_usb_driver);
@@ -791,8 +790,7 @@ nfc_initiator_deselect_target(nfc_device *pnd)
  * If timeout equals to 0, the function blocks indefinitely (until an error is raised or function is completed)
  * If timeout equals to -1, the default timeout will be used
  */
-int
-nfc_initiator_transceive_bytes(nfc_device *pnd, const uint8_t *pbtTx, const size_t szTx, uint8_t *pbtRx,
+int nfc_initiator_transceive_bytes(nfc_device *pnd, const uint8_t *pbtTx, const size_t szTx, uint8_t *pbtRx,
                                const size_t szRx, int timeout)
 {
   HAL(initiator_transceive_bytes, pnd, pbtTx, szTx, pbtRx, szRx, timeout)
@@ -1257,8 +1255,7 @@ nfc_device_get_supported_baud_rate_target_mode(nfc_device *pnd, const nfc_modula
  * @param nm \a nfc_modulation.
  *
  */
-static int
-nfc_device_validate_modulation(nfc_device *pnd, const nfc_mode mode, const nfc_modulation *nm)
+static int nfc_device_validate_modulation(nfc_device *pnd, const nfc_mode mode, const nfc_modulation *nm)
 {
   int res;
   const nfc_modulation_type *nmt = NULL;

@@ -41,7 +41,7 @@
 #include <unistd.h>
 
 #include <nfc/nfc.h>
-
+#include "esp_log.h"
 #include "drivers.h"
 #include "nfc-internal.h"
 #include "chips/pn53x.h"
@@ -53,6 +53,8 @@
 
 #define LOG_CATEGORY "libnfc.driver.pn532_uart"
 #define LOG_GROUP    NFC_LOG_GROUP_DRIVER
+
+#define TAG "pn532_uart"
 
 // Internal data structs
 const struct pn53x_io pn532_uart_io;
@@ -71,8 +73,7 @@ int     pn532_uart_wakeup(nfc_device *pnd);
 
 #define DRIVER_DATA(pnd) ((struct pn532_uart_data*)(pnd->driver_data))
 
-static size_t
-pn532_uart_scan(const nfc_context *context, nfc_connstring connstrings[], const size_t connstrings_len)
+static size_t pn532_uart_scan(const nfc_context *context, nfc_connstring connstrings[], const size_t connstrings_len)
 {
   size_t device_found = 0;
   serial_port sp;
@@ -182,11 +183,9 @@ struct pn532_uart_descriptor {
   uint32_t speed;
 };
 
-static void
-pn532_uart_close(nfc_device *pnd)
+static void pn532_uart_close(nfc_device *pnd)
 {
   pn53x_idle(pnd);
-
   // Release UART port
   uart_close(DRIVER_DATA(pnd)->port);
 
@@ -200,8 +199,7 @@ pn532_uart_close(nfc_device *pnd)
   nfc_device_free(pnd);
 }
 
-static nfc_device *
-pn532_uart_open(const nfc_context *context, const nfc_connstring connstring)
+static nfc_device * pn532_uart_open(const nfc_context *context, const nfc_connstring connstring)
 {
   struct pn532_uart_descriptor ndd;
   char *speed_s;
@@ -294,13 +292,11 @@ pn532_uart_open(const nfc_context *context, const nfc_connstring connstring)
     pn532_uart_close(pnd);
     return NULL;
   }
-
   pn53x_init(pnd);
   return pnd;
 }
 
-int
-pn532_uart_wakeup(nfc_device *pnd)
+int pn532_uart_wakeup(nfc_device *pnd)
 {
   /* High Speed Unit (HSU) wake up consist to send 0x55 and wait a "long" delay for PN532 being wakeup. */
   const uint8_t pn532_wakeup_preamble[] = { 0x55, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -310,8 +306,8 @@ pn532_uart_wakeup(nfc_device *pnd)
 }
 
 #define PN532_BUFFER_LEN (PN53x_EXTENDED_FRAME__DATA_MAX_LEN + PN53x_EXTENDED_FRAME__OVERHEAD)
-static int
-pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t szData, int timeout)
+
+static int pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t szData, int timeout)
 {
   int res = 0;
   // Before sending anything, we need to discard from any junk bytes
@@ -323,11 +319,13 @@ pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t szData, in
       if ((res = pn532_uart_wakeup(pnd)) < 0) {
         return res;
       }
+      // ESP_LOGE(TAG, "pn532_uart_wakeup");
       // According to PN532 application note, C106 appendix: to go out Low Vbat mode and enter in normal mode we need to send a SAMConfiguration command
       if ((res = pn532_SAMConfiguration(pnd, PSM_NORMAL, 1000)) < 0) {
         return res;
       }
     }
+    // ESP_LOGE(TAG, "pn532_SAMConfiguration");
     break;
     case POWERDOWN: {
       if ((res = pn532_uart_wakeup(pnd)) < 0) {
@@ -336,13 +334,13 @@ pn532_uart_send(nfc_device *pnd, const uint8_t *pbtData, const size_t szData, in
     }
     break;
     case NORMAL:
+      // ESP_LOGW(TAG, "power mode NORMAL");
       // Nothing to do :)
       break;
   };
 
   uint8_t  abtFrame[PN532_BUFFER_LEN] = { 0x00, 0x00, 0xff };       // Every packet must start with "00 00 ff"
   size_t szFrame = 0;
-
   if ((res = pn53x_build_frame(abtFrame, &szFrame, pbtData, szData)) < 0) {
     pnd->last_error = res;
     return pnd->last_error;

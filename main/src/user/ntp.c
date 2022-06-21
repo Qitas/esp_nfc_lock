@@ -81,7 +81,6 @@ static void ntp_task(void *pvParameter)
     struct tm timeinfo = {0};
     while (1) {
         vTaskDelay(60000 / portTICK_RATE_MS);
-
         if (nfc_app_get_mode() == NFC_APP_MODE_IDX_ON) {
             time(&now);
             localtime_r(&now, &timeinfo);

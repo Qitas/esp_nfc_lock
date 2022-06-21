@@ -39,13 +39,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include "esp_log.h"
 #include "nfc/nfc.h"
 #include "nfc-internal.h"
 #include "pn53x.h"
 #include "pn53x-internal.h"
 
 #include "mirror-subr.h"
+
+#define TAG "pn53X"
 
 #define LOG_CATEGORY "libnfc.chip.pn53x"
 #define LOG_GROUP NFC_LOG_GROUP_CHIP
@@ -140,8 +142,7 @@ pn53x_init(struct nfc_device *pnd)
   return NFC_SUCCESS;
 }
 
-int
-pn53x_reset_settings(struct nfc_device *pnd)
+int pn53x_reset_settings(struct nfc_device *pnd)
 {
   int res = 0;
   // Reset the ending transmission bits register, it is unknown what the last tranmission used there
@@ -164,8 +165,7 @@ pn53x_reset_settings(struct nfc_device *pnd)
   return NFC_SUCCESS;
 }
 
-int
-pn53x_transceive(struct nfc_device *pnd, const uint8_t *pbtTx, const size_t szTx, uint8_t *pbtRx, const size_t szRxLen, int timeout)
+int pn53x_transceive(struct nfc_device *pnd, const uint8_t *pbtTx, const size_t szTx, uint8_t *pbtRx, const size_t szRxLen, int timeout)
 {
   bool mi = false;
   int res = 0;
@@ -659,16 +659,14 @@ int pn53x_read_register(struct nfc_device *pnd, uint16_t ui16RegisterAddress, ui
   return pn53x_ReadRegister(pnd, ui16RegisterAddress, ui8Value);
 }
 
-static int
-pn53x_WriteRegister(struct nfc_device *pnd, const uint16_t ui16RegisterAddress, const uint8_t ui8Value)
+static int pn53x_WriteRegister(struct nfc_device *pnd, const uint16_t ui16RegisterAddress, const uint8_t ui8Value)
 {
   uint8_t  abtCmd[] = { WriteRegister, ui16RegisterAddress >> 8, ui16RegisterAddress & 0xff, ui8Value };
   PNREG_TRACE(ui16RegisterAddress);
   return pn53x_transceive(pnd, abtCmd, sizeof(abtCmd), NULL, 0, -1);
 }
 
-int
-pn53x_write_register(struct nfc_device *pnd, const uint16_t ui16RegisterAddress, const uint8_t ui8SymbolMask, const uint8_t ui8Value)
+int pn53x_write_register(struct nfc_device *pnd, const uint16_t ui16RegisterAddress, const uint8_t ui8SymbolMask, const uint8_t ui8Value)
 {
   if ((ui16RegisterAddress < PN53X_CACHE_REGISTER_MIN_ADDRESS) || (ui16RegisterAddress > PN53X_CACHE_REGISTER_MAX_ADDRESS)) {
     // Direct write
@@ -694,8 +692,7 @@ pn53x_write_register(struct nfc_device *pnd, const uint16_t ui16RegisterAddress,
   return NFC_SUCCESS;
 }
 
-int
-pn53x_writeback_register(struct nfc_device *pnd)
+int pn53x_writeback_register(struct nfc_device *pnd)
 {
   int res = 0;
   // TODO Check at each step (ReadRegister, WriteRegister) if we didn't exceed max supported frame length
@@ -1038,8 +1035,7 @@ pn53x_check_communication(struct nfc_device *pnd)
   return NFC_EIO;
 }
 
-int
-pn53x_initiator_init(struct nfc_device *pnd)
+int pn53x_initiator_init(struct nfc_device *pnd)
 {
   pn53x_reset_settings(pnd);
   int res;
@@ -1107,14 +1103,12 @@ void pn53x_initiator_init_iclass_modulation(struct nfc_device *pnd)
   pn53x_WriteRegister(pnd, PN53X_REG_CIU_TReloadVal_lo, 0xf0);
 }
 
-int
-pn532_initiator_init_secure_element(struct nfc_device *pnd)
+int pn532_initiator_init_secure_element(struct nfc_device *pnd)
 {
   return pn532_SAMConfiguration(pnd, PSM_WIRED_CARD, -1);
 }
 
-static int
-pn53x_initiator_select_passive_target_ext(struct nfc_device *pnd,
+static int pn53x_initiator_select_passive_target_ext(struct nfc_device *pnd,
                                           const nfc_modulation nm,
                                           const uint8_t *pbtInitData, const size_t szInitData,
                                           nfc_target *pnt,
@@ -2904,22 +2898,20 @@ pn53x_SetParameters(struct nfc_device *pnd, const uint8_t ui8Value)
   return NFC_SUCCESS;
 }
 
-int
-pn532_SAMConfiguration(struct nfc_device *pnd, const pn532_sam_mode sam_mode, int timeout)
+int pn532_SAMConfiguration(struct nfc_device *pnd, const pn532_sam_mode sam_mode, int timeout)
 {
-  uint8_t abtCmd[] = { SAMConfiguration, sam_mode, 0x00, 0x00 };
+  uint8_t abtCmd[] = { SAMConfiguration, sam_mode, 0x00, 0x01 };
   size_t szCmd = sizeof(abtCmd);
-
   if (CHIP_DATA(pnd)->type != PN532) {
     // This function is not supported by pn531 neither pn533
     pnd->last_error = NFC_EDEVNOTSUPP;
     return pnd->last_error;
   }
-
   switch (sam_mode) {
-    case PSM_NORMAL: // Normal mode
-    case PSM_WIRED_CARD: // Wired card mode
+    case PSM_NORMAL:      // Normal mode
+    case PSM_WIRED_CARD:  // Wired card mode
       szCmd = 2;
+      // ESP_LOGW(TAG, "power mode NORMAL");
       break;
     case PSM_VIRTUAL_CARD: // Virtual card mode
     case PSM_DUAL_CARD: // Dual card mode
@@ -2934,11 +2926,10 @@ pn532_SAMConfiguration(struct nfc_device *pnd, const pn532_sam_mode sam_mode, in
   return (pn53x_transceive(pnd, abtCmd, szCmd, NULL, 0, timeout));
 }
 
-int
-pn53x_PowerDown(struct nfc_device *pnd)
+int pn53x_PowerDown(struct nfc_device *pnd)
 {
   uint8_t  abtCmd[] = { PowerDown, 0xf0 };
-  int res;
+  int res = 0;
   if ((res = pn53x_transceive(pnd, abtCmd, sizeof(abtCmd), NULL, 0, -1)) < 0)
     return res;
   CHIP_DATA(pnd)->power_mode = LOWVBAT;

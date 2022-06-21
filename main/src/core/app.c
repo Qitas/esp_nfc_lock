@@ -13,7 +13,7 @@ const char *app_get_version(void)
 
 void app_print_info(void)
 {
-    ESP_LOGW(TAG, "current version: %s", app_get_version());
+    ESP_LOGW("version", "%s", app_get_version());
 }
 
 esp_err_t app_getenv(const char *key, void *out_value, size_t *length)
@@ -65,8 +65,6 @@ esp_err_t app_setenv(const char *key, const void *value, size_t length)
         nvs_close(handle);
         return err;
     }
-
     nvs_close(handle);
-
     return ESP_OK;
 }

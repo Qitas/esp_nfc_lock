@@ -42,11 +42,11 @@
 #define WriteRegister 0x08
 #define ReadGPIO 0x0C
 #define WriteGPIO 0x0E
-#define SetSerialBaudRate 0x10
-#define SetParameters 0x12
-#define SAMConfiguration 0x14
-#define PowerDown 0x16
-#define AlparCommandForTDA 0x18
+#define SetSerialBaudRate   0x10
+#define SetParameters       0x12
+#define SAMConfiguration    0x14
+#define PowerDown           0x16
+#define AlparCommandForTDA  0x18
 // RC-S360 has another command 0x18 for reset &..?
 
 // RF communication

@@ -81,7 +81,6 @@ static void ip_event_handler(void *arg, esp_event_base_t event_base, int32_t eve
             led_set_mode(LED_MODE_IDX_BLINK_S0);
 #endif
             nfc_app_set_mode(NFC_APP_MODE_IDX_ON);
-
             break;
         default:
             break;
@@ -125,21 +124,18 @@ static void sc_event_handler(void *arg, esp_event_base_t event_base, int32_t eve
 static void os_pwr_task_handle(void *pvParameters)
 {
     ESP_LOGI(OS_PWR_TAG, "started.");
-
-    while (1) {
+    while (true) {
         xEventGroupWaitBits(
             user_event_group,
             OS_PWR_RESET_BIT | OS_PWR_SLEEP_BIT,
             pdFALSE,
             pdFALSE,
             portMAX_DELAY
-        );
-
+        ); 
         EventBits_t uxBits = xEventGroupGetBits(user_event_group);
         if (uxBits & OS_PWR_RESET_BIT) {
             if (reset_wait_bits) {
-                ESP_LOGW(OS_PWR_TAG, "waiting for unfinished jobs....");
-
+                ESP_LOGW(OS_PWR_TAG, "waiting for unfinished jobs...."); 
                 xEventGroupWaitBits(
                     user_event_group,
                     reset_wait_bits,
@@ -149,8 +145,7 @@ static void os_pwr_task_handle(void *pvParameters)
                 );
 
                 vTaskDelay(50 / portTICK_RATE_MS);
-            }
-
+            } 
             ESP_LOGW(OS_PWR_TAG, "reset now");
             esp_restart();
         } else if (uxBits & OS_PWR_SLEEP_BIT) {
