@@ -13,7 +13,7 @@
 #define UART_NUM                UART_NUM_1
 #define SPI_HOST_NUM            SPI2_HOST
 
-
+#define SPI_TRANS_MAX_SZ          (1000*32)   
 extern spi_device_handle_t spi_host;
 
 

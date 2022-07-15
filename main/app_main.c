@@ -50,7 +50,7 @@ static void chip_init(void)
 static void lock_init(void)
 {
     
-    nfc_app_init();
+    // nfc_app_init();
 }
 /*******************************************************************************
 **函数信息 ：
@@ -89,5 +89,5 @@ void app_main(void)
 {
     chip_init();
     lock_init();
-    // network_init();
+    network_init();
 }

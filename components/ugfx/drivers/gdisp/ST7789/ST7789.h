@@ -1,10 +1,3 @@
-/*
- * ST7789.h
- *
- *  Created on: 2019-04-29 22:04
- *      Author: Jack Chen <redchenjs@live.com>
- */
-
 #ifndef _ST7789_H
 #define _ST7789_H
 

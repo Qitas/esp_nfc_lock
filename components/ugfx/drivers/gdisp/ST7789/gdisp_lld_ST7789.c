@@ -45,8 +45,14 @@
 #define GDISP_FLG_NEEDFLUSH         (GDISP_FLG_DRIVER << 0)
 
 #include "ST7789.h"
-
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：
+**输出参数 ：
+********************************************************************************/
+LLDSPEC bool_t gdisp_lld_init(GDisplay *g) 
+{
     g->priv = gfxAlloc(GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT * 2);
     if (g->priv == NULL) {
         gfxHalt("GDISP ST7789: Failed to allocate private memory");
@@ -137,7 +143,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
         write_data(g, 0x01);
         write_data(g, 0x17);
     write_cmd(g, ST7789_RAMWR);     // 20: set write ram, N args, no delay:
-        write_buff(g, (uint8_t *)g->priv, GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT * 2);
+    write_buff(g, (uint8_t *)g->priv, GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT * 2);
     write_cmd(g, ST7789_DISPON);    // 21: main screen turn on, no args, no delay
 
     /* initialise the GDISP structure */
@@ -150,7 +156,12 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
     return TRUE;
 }
-
+/*******************************************************************************
+**函数信息 ：
+**功能描述 ：
+**输入参数 ：
+**输出参数 ：
+********************************************************************************/
 #if GDISP_HARDWARE_FLUSH
     LLDSPEC void gdisp_lld_flush(GDisplay *g) {
         if (!(g->flags & GDISP_FLG_NEEDFLUSH)) {

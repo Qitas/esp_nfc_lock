@@ -85,6 +85,7 @@ void st7789_write_data(uint8_t data)
 
     spi_device_transmit(spi_host, &spi_trans[0]);
 }
+
 void st7789_write_buff(uint8_t *buff, uint32_t n)
 {
     spi_trans[0].length = n * 8;
@@ -93,7 +94,14 @@ void st7789_write_buff(uint8_t *buff, uint32_t n)
     spi_trans[0].rx_buffer = NULL;
     spi_trans[0].user = (void *)1;
     spi_trans[0].flags = 0;
-
+    uint32_t len = n; 
+    while (len > SPI_TRANS_MAX_SZ) {
+        spi_trans[0].length = SPI_TRANS_MAX_SZ * 8;
+        spi_device_transmit(spi_host, &spi_trans[0]);
+        len -= SPI_TRANS_MAX_SZ;
+        spi_trans[0].tx_buffer += SPI_TRANS_MAX_SZ;
+        spi_trans[0].length = len * 8;
+    }
     spi_device_transmit(spi_host, &spi_trans[0]);
 }
 
@@ -114,7 +122,16 @@ void st7789_refresh_gram(uint8_t *gram)
     spi_trans[1].rx_buffer = NULL;
     spi_trans[1].user = (void *)1;
     spi_trans[1].flags = 0;
-
+    uint32_t len = ST7789_SCREEN_WIDTH * ST7789_SCREEN_HEIGHT * 2; 
+    while (len > SPI_TRANS_MAX_SZ) {
+        spi_trans[1].length = SPI_TRANS_MAX_SZ * 8;
+        spi_device_queue_trans(spi_host, &spi_trans[1], portMAX_DELAY);
+        len -= SPI_TRANS_MAX_SZ;
+        spi_trans[1].rxlength = 0;
+        spi_trans[1].rx_buffer = NULL;
+        spi_trans[1].tx_buffer += SPI_TRANS_MAX_SZ;
+        spi_trans[1].length = len * 8;
+    }
     spi_device_queue_trans(spi_host, &spi_trans[1], portMAX_DELAY);
 }
 #endif

@@ -19,11 +19,7 @@ void spi_host_init(void)
         .sclk_io_num = CONFIG_SPI_SCLK_PIN,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
-#ifdef CONFIG_LCD_TYPE_ST7735
-        .max_transfer_sz = ST7735_SCREEN_WIDTH * ST7735_SCREEN_HEIGHT * 2
-#else
-        .max_transfer_sz = ST7789_SCREEN_WIDTH * ST7789_SCREEN_HEIGHT * 2
-#endif
+        .max_transfer_sz = SPI_TRANS_MAX_SZ
     };
     ESP_ERROR_CHECK(spi_bus_initialize(SPI_HOST_NUM, &bus_conf, SPI_DMA_CH_AUTO));
 
